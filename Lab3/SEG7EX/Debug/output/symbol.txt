@@ -71,9 +71,9 @@
 000004a2 T DRV_IntToStr	/cygdrive/c/WorkSpace/AndeSight/SEG7EX/Debug/../main.c:217
 00000668 T DRV_Printf	/cygdrive/c/WorkSpace/AndeSight/SEG7EX/Debug/../main.c:303
 0000083c T main	/cygdrive/c/WorkSpace/AndeSight/SEG7EX/Debug/../main.c:360
-00000f14 T memcpy
-00000f28 T memset
-0000101c A __data_lmastart
+00000f18 T memcpy
+00000f2c T memset
+00001020 A __data_lmastart
 00100200 D __data_start
 00100200 D index_7LED	/cygdrive/c/WorkSpace/AndeSight/SEG7EX/Debug/../main.c:350
 00100220 D index_7LED_NUM	/cygdrive/c/WorkSpace/AndeSight/SEG7EX/Debug/../main.c:351

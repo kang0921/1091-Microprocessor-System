@@ -388,11 +388,11 @@ int main()
 		if( switchIn == 1 ){
 			GPIO_PTD_GPIO = Number_4;	//讓初值預設為4
 			for( i = 0 ; i< 8; i++){
-				for(myi = 0; myi<8000; myi++){ //做視覺暫留
+				for(myi = 0; myi<2500; myi++){ //做視覺暫留
 					for(j = 0; j<=i ; j++){
 						GPIO_PTA_GPIO = index_7LED[7-j];
 						GPIO_PTD_GPIO = id[7+j-i];
-						delay1(3);
+						delay1(50);
 						GPIO_PTD_GPIO = 0x0000;	//清空
 
 						switchIn = (GPIO_PTC_PADIN >> 2) & 0x0000000F; //讀取SW的輸入
@@ -421,11 +421,11 @@ int main()
 		if( switchIn == 2 ){
 			GPIO_PTD_GPIO = Number_4;	//讓初值預設為4
 			for( i = 0 ; i< 8; i++){
-				for(myi = 0; myi<8000; myi++){ //做視覺暫留
+				for(myi = 0; myi<2500; myi++){ //做視覺暫留
 					for(j = 0; j<=i ; j++){
 						GPIO_PTA_GPIO = index_7LED[i-j];
 						GPIO_PTD_GPIO = id[j];
-						delay1(3);
+						delay1(50);
 						GPIO_PTD_GPIO = 0x0000;	//清空
 
 						switchIn = (GPIO_PTC_PADIN >> 2) & 0x0000000F; //讀取SW的輸入

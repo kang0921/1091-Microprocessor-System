@@ -7,10 +7,10 @@ start address 0x000001a0
 
 Program Header:
     LOAD off    0x00001000 vaddr 0x00000000 paddr 0x00000000 align 2**12
-         filesz 0x0000101c memsz 0x0000101c flags r-x
-    LOAD off    0x00002200 vaddr 0x00100200 paddr 0x0000101c align 2**12
+         filesz 0x00001020 memsz 0x00001020 flags r-x
+    LOAD off    0x00002200 vaddr 0x00100200 paddr 0x00001020 align 2**12
          filesz 0x00000084 memsz 0x0000009c flags rw-
-    LOAD off    0x0000229c vaddr 0x0010029c paddr 0x000010a0 align 2**12
+    LOAD off    0x0000229c vaddr 0x0010029c paddr 0x000010a4 align 2**12
          filesz 0x00000000 memsz 0x00000014 flags rw-
 private flags = 40010042: n1 instructions
 
@@ -26,15 +26,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   4 .nds32_isr    000000d8  00000148  00000148  00001148  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  5 .text         00000d18  00000220  00000220  00001220  2**2
+  5 .text         00000d1c  00000220  00000220  00001220  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  6 .rodata       000000e4  00000f38  00000f38  00001f38  2**2
+  6 .rodata       000000e4  00000f3c  00000f3c  00001f3c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .data         00000084  00100200  0000101c  00002200  2**2
+  7 .data         00000084  00100200  00001020  00002200  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .bss          00000018  00100284  000010a0  00002284  2**2
+  8 .bss          00000018  00100284  000010a4  00002284  2**2
                   ALLOC
-  9 .scommon_w    00000014  0010029c  000010a0  0000229c  2**2
+  9 .scommon_w    00000014  0010029c  000010a4  0000229c  2**2
                   ALLOC
  10 .comment      0000002f  00000000  00000000  00002284  2**0
                   CONTENTS, READONLY
@@ -59,7 +59,7 @@ SYMBOL TABLE:
 00000108 l    d  .nds32_jmptbl	00000000 .nds32_jmptbl
 00000148 l    d  .nds32_isr	00000000 .nds32_isr
 00000220 l    d  .text	00000000 .text
-00000f38 l    d  .rodata	00000000 .rodata
+00000f3c l    d  .rodata	00000000 .rodata
 00100200 l    d  .data	00000000 .data
 00100284 l    d  .bss	00000000 .bss
 0010029c l    d  .scommon_w	00000000 .scommon_w
@@ -109,7 +109,7 @@ SYMBOL TABLE:
 000002e0 g     F .text	00000014 clear_swi
 00000148 g     F .nds32_isr	00000042 _nds32_e_sa_nr
 00000118  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_04
-00000f14 g     F .text	00000012 memcpy
+00000f18 g     F .text	00000012 memcpy
 000002a8 g     F .text	00000006 GIE_ENABLE
 000002b8 g     F .text	00000020 gen_swi
 0000025c g     F .text	00000032 __cpu_init
@@ -146,8 +146,8 @@ SYMBOL TABLE:
 00000100 g     O .nds32_nmih	00000004 _nds32_nmih
 00100284 g       .bss	00000000 __bss_start
 00000108 g     O .nds32_jmptbl	00000004 _nds32_jmptbl_00
-00000f28 g     F .text	0000000e memset
-0000083c g     F .text	000006d8 main
+00000f2c g     F .text	0000000e memset
+0000083c g     F .text	000006dc main
 000003c0 g     F .text	00000016 DRV_IntInitial
 00000104 g     O .nds32_wrh	00000004 _nds32_wrh
 00000090 g     F .nds32_vector	00000010 _nds32_vector_09
@@ -162,7 +162,7 @@ SYMBOL TABLE:
 00000328 g     F .text	00000016 SW0_ISR
 00000134  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_11
 00000668 g     F .text	000001d4 DRV_Printf
-0000101c g       *ABS*	00000000 __data_lmastart
+00001020 g       *ABS*	00000000 __data_lmastart
 000000f0 g     F .nds32_vector	00000010 _nds32_vector_15
 00000470 g     F .text	00000032 DRV_PutStr
 00100284 g       .bss	00000000 _edata
@@ -371,8 +371,8 @@ Disassembly of section .text:
  230:	f0 81       	swi37.sp $r0,[+#0x4]
  232:	f2 01       	lwi37.sp $r2,[+#0x4]
  234:	3e 0f ff b8 	addi.gp $r0,#-72
- 238:	44 10 10 1c 	movi $r1,#0x101c
- 23c:	49 00 06 6c 	jal f14 <memcpy>
+ 238:	44 10 10 20 	movi $r1,#0x1020
+ 23c:	49 00 06 6e 	jal f18 <memcpy>
  240:	3e 18 00 54 	addi.gp $r1,#0x54
  244:	3e 08 00 3c 	addi.gp $r0,#0x3c
  248:	9a 08       	sub333 $r0,$r1,$r0
@@ -381,7 +381,7 @@ Disassembly of section .text:
  24e:	3e 08 00 3c 	addi.gp $r0,#0x3c
  252:	80 41       	mov55 $r2,$r1
  254:	84 20       	movi55 $r1,#0x0
- 256:	49 00 06 69 	jal f28 <memset>
+ 256:	49 00 06 6b 	jal f2c <memset>
  25a:	fc 81       	pop25 $r6,#8    ! {$r6, $fp, $gp, $lp}
 
 0000025c <__cpu_init>:
@@ -929,16 +929,16 @@ Disassembly of section .text:
  83c:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
  840:	ef f4       	addi10.sp #-12
  842:	49 ff fd dc 	jal 3fa <OS_PowerOnDriverInitial>
- 846:	44 00 0f b8 	movi $r0,#0xfb8
+ 846:	44 00 0f bc 	movi $r0,#0xfbc
  84a:	84 20       	movi55 $r1,#0x0
  84c:	49 ff ff 0e 	jal 668 <DRV_Printf>
- 850:	44 00 0f e0 	movi $r0,#0xfe0
+ 850:	44 00 0f e4 	movi $r0,#0xfe4
  854:	84 20       	movi55 $r1,#0x0
  856:	49 ff ff 09 	jal 668 <DRV_Printf>
- 85a:	44 00 0f b8 	movi $r0,#0xfb8
+ 85a:	44 00 0f bc 	movi $r0,#0xfbc
  85e:	84 20       	movi55 $r1,#0x0
  860:	49 ff ff 04 	jal 668 <DRV_Printf>
- 864:	44 00 10 08 	movi $r0,#0x1008
+ 864:	44 00 10 0c 	movi $r0,#0x100c
  868:	84 20       	movi55 $r1,#0x0
  86a:	49 ff fe ff 	jal 668 <DRV_Printf>
  86e:	46 00 01 f6 	sethi $r0,#0x1f6
@@ -979,20 +979,20 @@ Disassembly of section .text:
  8d6:	f0 81       	swi37.sp $r0,[+#0x4]
  8d8:	f0 01       	lwi37.sp $r0,[+#0x4]
  8da:	5a 00 01 04 	beqc $r0,#0x1,8e2 <main+0xa6>
- 8de:	48 00 00 a4 	j a26 <main+0x1ea>
+ 8de:	48 00 00 a5 	j a28 <main+0x1ec>
  8e2:	46 00 01 f6 	sethi $r0,#0x1f6
  8e6:	50 00 08 60 	addi $r0,$r0,#0x860
  8ea:	44 10 66 66 	movi $r1,#0x6666
  8ee:	b6 20       	swi450 $r1,[$r0]
  8f0:	84 00       	movi55 $r0,#0x0
  8f2:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- 8f6:	d5 56       	j8 9a2 <main+0x166>
+ 8f6:	d5 57       	j8 9a4 <main+0x168>
  8f8:	84 00       	movi55 $r0,#0x0
  8fa:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- 8fe:	d5 48       	j8 98e <main+0x152>
+ 8fe:	d5 49       	j8 990 <main+0x154>
  900:	84 00       	movi55 $r0,#0x0
  902:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- 906:	d5 39       	j8 978 <main+0x13c>
+ 906:	d5 3a       	j8 97a <main+0x13e>
  908:	46 00 01 f6 	sethi $r0,#0x1f6
  90c:	50 00 08 00 	addi $r0,$r0,#0x800
  910:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
@@ -1013,514 +1013,514 @@ Disassembly of section .text:
  93e:	88 22       	add45 $r1,$r2
  940:	b4 21       	lwi450 $r1,[$r1]
  942:	b6 20       	swi450 $r1,[$r0]
- 944:	84 03       	movi55 $r0,#0x3
- 946:	49 ff fc fd 	jal 340 <delay1>
- 94a:	46 00 01 f6 	sethi $r0,#0x1f6
- 94e:	50 00 08 60 	addi $r0,$r0,#0x860
- 952:	84 20       	movi55 $r1,#0x0
- 954:	b6 20       	swi450 $r1,[$r0]
- 956:	46 00 01 f6 	sethi $r0,#0x1f6
- 95a:	50 00 08 44 	addi $r0,$r0,#0x844
- 95e:	b4 00       	lwi450 $r0,[$r0]
- 960:	92 02       	srli45 $r0,#0x2
- 962:	96 1f       	fexti33 $r0,#0x3
- 964:	f0 81       	swi37.sp $r0,[+#0x4]
- 966:	f0 01       	lwi37.sp $r0,[+#0x4]
- 968:	5a 00 01 03 	beqc $r0,#0x1,96e <main+0x132>
- 96c:	d5 0c       	j8 984 <main+0x148>
- 96e:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
- 972:	8c 01       	addi45 $r0,#0x1
- 974:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- 978:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
- 97c:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- 980:	e2 20       	slt45 $r1,$r0
- 982:	e8 c3       	beqzs8 908 <main+0xcc>
- 984:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- 988:	8c 01       	addi45 $r0,#0x1
- 98a:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- 98e:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- 992:	5c f0 1f 40 	slti $r15,$r0,#0x1f40
- 996:	e9 b5       	bnezs8 900 <main+0xc4>
- 998:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- 99c:	8c 01       	addi45 $r0,#0x1
- 99e:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- 9a2:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- 9a6:	e6 08       	slti45 $r0,#0x8
- 9a8:	e9 a8       	bnezs8 8f8 <main+0xbc>
- 9aa:	46 00 01 f6 	sethi $r0,#0x1f6
- 9ae:	50 00 08 44 	addi $r0,$r0,#0x844
- 9b2:	b4 00       	lwi450 $r0,[$r0]
- 9b4:	92 02       	srli45 $r0,#0x2
- 9b6:	96 1f       	fexti33 $r0,#0x3
- 9b8:	f0 81       	swi37.sp $r0,[+#0x4]
- 9ba:	f0 01       	lwi37.sp $r0,[+#0x4]
- 9bc:	5a 00 01 09 	beqc $r0,#0x1,9ce <main+0x192>
- 9c0:	46 00 01 f6 	sethi $r0,#0x1f6
- 9c4:	50 00 08 60 	addi $r0,$r0,#0x860
- 9c8:	84 20       	movi55 $r1,#0x0
- 9ca:	b6 20       	swi450 $r1,[$r0]
- 9cc:	d5 2d       	j8 a26 <main+0x1ea>
- 9ce:	84 00       	movi55 $r0,#0x0
- 9d0:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- 9d4:	d5 24       	j8 a1c <main+0x1e0>
- 9d6:	46 00 01 f6 	sethi $r0,#0x1f6
- 9da:	50 00 08 00 	addi $r0,$r0,#0x800
- 9de:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- 9e2:	94 8a       	slli333 $r2,$r1,#0x2
- 9e4:	3e 1f ff b8 	addi.gp $r1,#-72
- 9e8:	88 22       	add45 $r1,$r2
- 9ea:	b4 21       	lwi450 $r1,[$r1]
- 9ec:	b6 20       	swi450 $r1,[$r0]
- 9ee:	46 00 01 f6 	sethi $r0,#0x1f6
- 9f2:	50 00 08 60 	addi $r0,$r0,#0x860
- 9f6:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- 9fa:	52 10 80 07 	subri $r1,$r1,#0x7
- 9fe:	94 8a       	slli333 $r2,$r1,#0x2
- a00:	3e 18 00 1c 	addi.gp $r1,#0x1c
- a04:	88 22       	add45 $r1,$r2
- a06:	b4 21       	lwi450 $r1,[$r1]
- a08:	b6 20       	swi450 $r1,[$r0]
- a0a:	44 00 03 e8 	movi $r0,#0x3e8
- a0e:	49 ff fc 99 	jal 340 <delay1>
- a12:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- a16:	8c 01       	addi45 $r0,#0x1
- a18:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- a1c:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- a20:	e6 08       	slti45 $r0,#0x8
- a22:	e9 da       	bnezs8 9d6 <main+0x19a>
- a24:	d5 c3       	j8 9aa <main+0x16e>
- a26:	f0 01       	lwi37.sp $r0,[+#0x4]
- a28:	5a 00 02 04 	beqc $r0,#0x2,a30 <main+0x1f4>
- a2c:	48 00 00 a1 	j b6e <main+0x332>
- a30:	46 00 01 f6 	sethi $r0,#0x1f6
- a34:	50 00 08 60 	addi $r0,$r0,#0x860
- a38:	44 10 66 66 	movi $r1,#0x6666
- a3c:	b6 20       	swi450 $r1,[$r0]
- a3e:	84 00       	movi55 $r0,#0x0
- a40:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- a44:	d5 53       	j8 aea <main+0x2ae>
- a46:	84 00       	movi55 $r0,#0x0
- a48:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- a4c:	d5 45       	j8 ad6 <main+0x29a>
- a4e:	84 00       	movi55 $r0,#0x0
- a50:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- a54:	d5 36       	j8 ac0 <main+0x284>
- a56:	46 00 01 f6 	sethi $r0,#0x1f6
- a5a:	50 00 08 00 	addi $r0,$r0,#0x800
- a5e:	3c 2c 00 17 	lwi.gp $r2,[+#0x5c]
- a62:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
- a66:	9a 51       	sub333 $r1,$r2,$r1
- a68:	94 8a       	slli333 $r2,$r1,#0x2
- a6a:	3e 1f ff b8 	addi.gp $r1,#-72
- a6e:	88 22       	add45 $r1,$r2
- a70:	b4 21       	lwi450 $r1,[$r1]
- a72:	b6 20       	swi450 $r1,[$r0]
- a74:	46 00 01 f6 	sethi $r0,#0x1f6
- a78:	50 00 08 60 	addi $r0,$r0,#0x860
- a7c:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
- a80:	94 8a       	slli333 $r2,$r1,#0x2
- a82:	3e 18 00 1c 	addi.gp $r1,#0x1c
- a86:	88 22       	add45 $r1,$r2
- a88:	b4 21       	lwi450 $r1,[$r1]
- a8a:	b6 20       	swi450 $r1,[$r0]
- a8c:	84 03       	movi55 $r0,#0x3
- a8e:	49 ff fc 59 	jal 340 <delay1>
- a92:	46 00 01 f6 	sethi $r0,#0x1f6
- a96:	50 00 08 60 	addi $r0,$r0,#0x860
- a9a:	84 20       	movi55 $r1,#0x0
- a9c:	b6 20       	swi450 $r1,[$r0]
- a9e:	46 00 01 f6 	sethi $r0,#0x1f6
- aa2:	50 00 08 44 	addi $r0,$r0,#0x844
- aa6:	b4 00       	lwi450 $r0,[$r0]
- aa8:	92 02       	srli45 $r0,#0x2
- aaa:	96 1f       	fexti33 $r0,#0x3
- aac:	f0 81       	swi37.sp $r0,[+#0x4]
- aae:	f0 01       	lwi37.sp $r0,[+#0x4]
- ab0:	5a 00 02 03 	beqc $r0,#0x2,ab6 <main+0x27a>
- ab4:	d5 0c       	j8 acc <main+0x290>
- ab6:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
- aba:	8c 01       	addi45 $r0,#0x1
- abc:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- ac0:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
- ac4:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- ac8:	e2 20       	slt45 $r1,$r0
- aca:	e8 c6       	beqzs8 a56 <main+0x21a>
- acc:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- ad0:	8c 01       	addi45 $r0,#0x1
- ad2:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- ad6:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- ada:	5c f0 1f 40 	slti $r15,$r0,#0x1f40
- ade:	e9 b8       	bnezs8 a4e <main+0x212>
- ae0:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- ae4:	8c 01       	addi45 $r0,#0x1
- ae6:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- aea:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- aee:	e6 08       	slti45 $r0,#0x8
- af0:	e9 ab       	bnezs8 a46 <main+0x20a>
- af2:	46 00 01 f6 	sethi $r0,#0x1f6
- af6:	50 00 08 44 	addi $r0,$r0,#0x844
- afa:	b4 00       	lwi450 $r0,[$r0]
- afc:	92 02       	srli45 $r0,#0x2
- afe:	96 1f       	fexti33 $r0,#0x3
- b00:	f0 81       	swi37.sp $r0,[+#0x4]
- b02:	f0 01       	lwi37.sp $r0,[+#0x4]
- b04:	5a 00 02 09 	beqc $r0,#0x2,b16 <main+0x2da>
- b08:	46 00 01 f6 	sethi $r0,#0x1f6
- b0c:	50 00 08 60 	addi $r0,$r0,#0x860
- b10:	84 20       	movi55 $r1,#0x0
- b12:	b6 20       	swi450 $r1,[$r0]
- b14:	d5 2d       	j8 b6e <main+0x332>
- b16:	84 00       	movi55 $r0,#0x0
- b18:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- b1c:	d5 24       	j8 b64 <main+0x328>
- b1e:	46 00 01 f6 	sethi $r0,#0x1f6
- b22:	50 00 08 00 	addi $r0,$r0,#0x800
- b26:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- b2a:	94 8a       	slli333 $r2,$r1,#0x2
- b2c:	3e 1f ff b8 	addi.gp $r1,#-72
- b30:	88 22       	add45 $r1,$r2
- b32:	b4 21       	lwi450 $r1,[$r1]
- b34:	b6 20       	swi450 $r1,[$r0]
- b36:	46 00 01 f6 	sethi $r0,#0x1f6
- b3a:	50 00 08 60 	addi $r0,$r0,#0x860
- b3e:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- b42:	52 10 80 07 	subri $r1,$r1,#0x7
- b46:	94 8a       	slli333 $r2,$r1,#0x2
- b48:	3e 18 00 1c 	addi.gp $r1,#0x1c
- b4c:	88 22       	add45 $r1,$r2
- b4e:	b4 21       	lwi450 $r1,[$r1]
- b50:	b6 20       	swi450 $r1,[$r0]
- b52:	44 00 03 e8 	movi $r0,#0x3e8
- b56:	49 ff fb f5 	jal 340 <delay1>
- b5a:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- b5e:	8c 01       	addi45 $r0,#0x1
- b60:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- b64:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- b68:	e6 08       	slti45 $r0,#0x8
- b6a:	e9 da       	bnezs8 b1e <main+0x2e2>
- b6c:	d5 c3       	j8 af2 <main+0x2b6>
- b6e:	f0 01       	lwi37.sp $r0,[+#0x4]
- b70:	5a 00 04 04 	beqc $r0,#0x4,b78 <main+0x33c>
- b74:	48 00 00 e3 	j d3a <main+0x4fe>
- b78:	46 00 01 f6 	sethi $r0,#0x1f6
- b7c:	50 00 08 44 	addi $r0,$r0,#0x844
- b80:	b4 00       	lwi450 $r0,[$r0]
- b82:	92 02       	srli45 $r0,#0x2
- b84:	96 1f       	fexti33 $r0,#0x3
- b86:	f0 81       	swi37.sp $r0,[+#0x4]
- b88:	f0 01       	lwi37.sp $r0,[+#0x4]
- b8a:	5a 00 04 04 	beqc $r0,#0x4,b92 <main+0x356>
- b8e:	48 00 01 b9 	j f00 <main+0x6c4>
- b92:	84 00       	movi55 $r0,#0x0
- b94:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
- b98:	48 00 00 8e 	j cb4 <main+0x478>
- b9c:	84 00       	movi55 $r0,#0x0
- b9e:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- ba2:	48 00 00 7b 	j c98 <main+0x45c>
- ba6:	84 00       	movi55 $r0,#0x0
- ba8:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- bac:	48 00 00 6c 	j c84 <main+0x448>
- bb0:	84 00       	movi55 $r0,#0x0
- bb2:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- bb6:	d5 30       	j8 c16 <main+0x3da>
- bb8:	46 00 01 f6 	sethi $r0,#0x1f6
- bbc:	50 00 08 60 	addi $r0,$r0,#0x860
- bc0:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- bc4:	52 10 80 07 	subri $r1,$r1,#0x7
- bc8:	94 8a       	slli333 $r2,$r1,#0x2
- bca:	3e 18 00 1c 	addi.gp $r1,#0x1c
- bce:	88 22       	add45 $r1,$r2
- bd0:	b4 21       	lwi450 $r1,[$r1]
- bd2:	b6 20       	swi450 $r1,[$r0]
- bd4:	46 00 01 f6 	sethi $r0,#0x1f6
- bd8:	50 00 08 00 	addi $r0,$r0,#0x800
- bdc:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- be0:	94 8a       	slli333 $r2,$r1,#0x2
- be2:	3e 1f ff b8 	addi.gp $r1,#-72
- be6:	88 22       	add45 $r1,$r2
- be8:	b4 21       	lwi450 $r1,[$r1]
- bea:	b6 20       	swi450 $r1,[$r0]
- bec:	44 00 00 64 	movi $r0,#0x64
- bf0:	49 ff fb a8 	jal 340 <delay1>
- bf4:	46 00 01 f6 	sethi $r0,#0x1f6
- bf8:	50 00 08 44 	addi $r0,$r0,#0x844
- bfc:	b4 00       	lwi450 $r0,[$r0]
- bfe:	92 02       	srli45 $r0,#0x2
- c00:	96 1f       	fexti33 $r0,#0x3
- c02:	f0 81       	swi37.sp $r0,[+#0x4]
- c04:	f0 01       	lwi37.sp $r0,[+#0x4]
- c06:	5a 00 04 03 	beqc $r0,#0x4,c0c <main+0x3d0>
- c0a:	d5 0c       	j8 c22 <main+0x3e6>
- c0c:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- c10:	8c 01       	addi45 $r0,#0x1
- c12:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- c16:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- c1a:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- c1e:	e2 20       	slt45 $r1,$r0
- c20:	e9 cc       	bnezs8 bb8 <main+0x37c>
- c22:	46 00 01 f6 	sethi $r0,#0x1f6
- c26:	50 00 08 60 	addi $r0,$r0,#0x860
- c2a:	3c 1c 00 16 	lwi.gp $r1,[+#0x58]
- c2e:	52 10 80 07 	subri $r1,$r1,#0x7
- c32:	94 8a       	slli333 $r2,$r1,#0x2
- c34:	3e 18 00 1c 	addi.gp $r1,#0x1c
- c38:	88 22       	add45 $r1,$r2
- c3a:	b4 21       	lwi450 $r1,[$r1]
- c3c:	b6 20       	swi450 $r1,[$r0]
- c3e:	46 00 01 f6 	sethi $r0,#0x1f6
- c42:	50 00 08 00 	addi $r0,$r0,#0x800
- c46:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
- c4a:	52 10 80 07 	subri $r1,$r1,#0x7
- c4e:	94 8a       	slli333 $r2,$r1,#0x2
- c50:	3e 1f ff b8 	addi.gp $r1,#-72
- c54:	88 22       	add45 $r1,$r2
- c56:	b4 21       	lwi450 $r1,[$r1]
- c58:	b6 20       	swi450 $r1,[$r0]
- c5a:	44 00 00 64 	movi $r0,#0x64
- c5e:	49 ff fb 71 	jal 340 <delay1>
- c62:	46 00 01 f6 	sethi $r0,#0x1f6
- c66:	50 00 08 44 	addi $r0,$r0,#0x844
- c6a:	b4 00       	lwi450 $r0,[$r0]
- c6c:	92 02       	srli45 $r0,#0x2
- c6e:	96 1f       	fexti33 $r0,#0x3
- c70:	f0 81       	swi37.sp $r0,[+#0x4]
- c72:	f0 01       	lwi37.sp $r0,[+#0x4]
- c74:	5a 00 04 03 	beqc $r0,#0x4,c7a <main+0x43e>
- c78:	d5 0b       	j8 c8e <main+0x452>
- c7a:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- c7e:	8c 01       	addi45 $r0,#0x1
- c80:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- c84:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- c88:	5c f0 01 f4 	slti $r15,$r0,#0x1f4
- c8c:	e9 92       	bnezs8 bb0 <main+0x374>
- c8e:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
- c92:	8c 01       	addi45 $r0,#0x1
- c94:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- c98:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- c9c:	52 00 00 08 	subri $r0,$r0,#0x8
- ca0:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
- ca4:	e2 20       	slt45 $r1,$r0
- ca6:	4e f3 ff 80 	bnez $r15,ba6 <main+0x36a>
- caa:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- cae:	8c 01       	addi45 $r0,#0x1
- cb0:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
- cb4:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- cb8:	e6 08       	slti45 $r0,#0x8
- cba:	4e f3 ff 71 	bnez $r15,b9c <main+0x360>
- cbe:	46 00 01 f6 	sethi $r0,#0x1f6
- cc2:	50 00 08 44 	addi $r0,$r0,#0x844
- cc6:	b4 00       	lwi450 $r0,[$r0]
- cc8:	92 02       	srli45 $r0,#0x2
- cca:	96 1f       	fexti33 $r0,#0x3
- ccc:	f0 81       	swi37.sp $r0,[+#0x4]
- cce:	f0 01       	lwi37.sp $r0,[+#0x4]
- cd0:	5a 00 04 09 	beqc $r0,#0x4,ce2 <main+0x4a6>
- cd4:	46 00 01 f6 	sethi $r0,#0x1f6
- cd8:	50 00 08 60 	addi $r0,$r0,#0x860
- cdc:	84 20       	movi55 $r1,#0x0
- cde:	b6 20       	swi450 $r1,[$r0]
- ce0:	d5 2d       	j8 d3a <main+0x4fe>
- ce2:	84 00       	movi55 $r0,#0x0
- ce4:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- ce8:	d5 24       	j8 d30 <main+0x4f4>
- cea:	46 00 01 f6 	sethi $r0,#0x1f6
- cee:	50 00 08 00 	addi $r0,$r0,#0x800
- cf2:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- cf6:	94 8a       	slli333 $r2,$r1,#0x2
- cf8:	3e 1f ff b8 	addi.gp $r1,#-72
- cfc:	88 22       	add45 $r1,$r2
- cfe:	b4 21       	lwi450 $r1,[$r1]
- d00:	b6 20       	swi450 $r1,[$r0]
- d02:	46 00 01 f6 	sethi $r0,#0x1f6
- d06:	50 00 08 60 	addi $r0,$r0,#0x860
- d0a:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- d0e:	52 10 80 07 	subri $r1,$r1,#0x7
- d12:	94 8a       	slli333 $r2,$r1,#0x2
- d14:	3e 18 00 1c 	addi.gp $r1,#0x1c
- d18:	88 22       	add45 $r1,$r2
- d1a:	b4 21       	lwi450 $r1,[$r1]
- d1c:	b6 20       	swi450 $r1,[$r0]
- d1e:	44 00 03 e8 	movi $r0,#0x3e8
- d22:	49 ff fb 0f 	jal 340 <delay1>
- d26:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- d2a:	8c 01       	addi45 $r0,#0x1
- d2c:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- d30:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- d34:	e6 08       	slti45 $r0,#0x8
- d36:	e9 da       	bnezs8 cea <main+0x4ae>
- d38:	d5 c3       	j8 cbe <main+0x482>
- d3a:	f0 01       	lwi37.sp $r0,[+#0x4]
- d3c:	5a 00 08 04 	beqc $r0,#0x8,d44 <main+0x508>
- d40:	48 00 00 de 	j efc <main+0x6c0>
- d44:	46 00 01 f6 	sethi $r0,#0x1f6
- d48:	50 00 08 44 	addi $r0,$r0,#0x844
- d4c:	b4 00       	lwi450 $r0,[$r0]
- d4e:	92 02       	srli45 $r0,#0x2
- d50:	96 1f       	fexti33 $r0,#0x3
- d52:	f0 81       	swi37.sp $r0,[+#0x4]
- d54:	f0 01       	lwi37.sp $r0,[+#0x4]
- d56:	5a 00 08 04 	beqc $r0,#0x8,d5e <main+0x522>
- d5a:	48 00 00 d3 	j f00 <main+0x6c4>
- d5e:	84 00       	movi55 $r0,#0x0
- d60:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
- d64:	48 00 00 89 	j e76 <main+0x63a>
- d68:	84 00       	movi55 $r0,#0x0
- d6a:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- d6e:	48 00 00 76 	j e5a <main+0x61e>
- d72:	84 00       	movi55 $r0,#0x0
- d74:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- d78:	d5 67       	j8 e46 <main+0x60a>
- d7a:	84 00       	movi55 $r0,#0x0
- d7c:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- d80:	d5 30       	j8 de0 <main+0x5a4>
- d82:	46 00 01 f6 	sethi $r0,#0x1f6
- d86:	50 00 08 60 	addi $r0,$r0,#0x860
- d8a:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- d8e:	94 8a       	slli333 $r2,$r1,#0x2
- d90:	3e 18 00 1c 	addi.gp $r1,#0x1c
- d94:	88 22       	add45 $r1,$r2
- d96:	b4 21       	lwi450 $r1,[$r1]
- d98:	b6 20       	swi450 $r1,[$r0]
- d9a:	46 00 01 f6 	sethi $r0,#0x1f6
- d9e:	50 00 08 00 	addi $r0,$r0,#0x800
- da2:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- da6:	52 10 80 07 	subri $r1,$r1,#0x7
- daa:	94 8a       	slli333 $r2,$r1,#0x2
- dac:	3e 1f ff b8 	addi.gp $r1,#-72
- db0:	88 22       	add45 $r1,$r2
- db2:	b4 21       	lwi450 $r1,[$r1]
- db4:	b6 20       	swi450 $r1,[$r0]
- db6:	44 00 00 64 	movi $r0,#0x64
- dba:	49 ff fa c3 	jal 340 <delay1>
- dbe:	46 00 01 f6 	sethi $r0,#0x1f6
- dc2:	50 00 08 44 	addi $r0,$r0,#0x844
- dc6:	b4 00       	lwi450 $r0,[$r0]
- dc8:	92 02       	srli45 $r0,#0x2
- dca:	96 1f       	fexti33 $r0,#0x3
- dcc:	f0 81       	swi37.sp $r0,[+#0x4]
- dce:	f0 01       	lwi37.sp $r0,[+#0x4]
- dd0:	5a 00 08 03 	beqc $r0,#0x8,dd6 <main+0x59a>
- dd4:	d5 0c       	j8 dec <main+0x5b0>
- dd6:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- dda:	8c 01       	addi45 $r0,#0x1
- ddc:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- de0:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- de4:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- de8:	e2 20       	slt45 $r1,$r0
- dea:	e9 cc       	bnezs8 d82 <main+0x546>
- dec:	46 00 01 f6 	sethi $r0,#0x1f6
- df0:	50 00 08 60 	addi $r0,$r0,#0x860
- df4:	3c 1c 00 16 	lwi.gp $r1,[+#0x58]
- df8:	94 8a       	slli333 $r2,$r1,#0x2
- dfa:	3e 18 00 1c 	addi.gp $r1,#0x1c
- dfe:	88 22       	add45 $r1,$r2
- e00:	b4 21       	lwi450 $r1,[$r1]
- e02:	b6 20       	swi450 $r1,[$r0]
- e04:	46 00 01 f6 	sethi $r0,#0x1f6
- e08:	50 00 08 00 	addi $r0,$r0,#0x800
- e0c:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
- e10:	94 8a       	slli333 $r2,$r1,#0x2
- e12:	3e 1f ff b8 	addi.gp $r1,#-72
- e16:	88 22       	add45 $r1,$r2
- e18:	b4 21       	lwi450 $r1,[$r1]
- e1a:	b6 20       	swi450 $r1,[$r0]
- e1c:	44 00 00 64 	movi $r0,#0x64
- e20:	49 ff fa 90 	jal 340 <delay1>
- e24:	46 00 01 f6 	sethi $r0,#0x1f6
- e28:	50 00 08 44 	addi $r0,$r0,#0x844
- e2c:	b4 00       	lwi450 $r0,[$r0]
- e2e:	92 02       	srli45 $r0,#0x2
- e30:	96 1f       	fexti33 $r0,#0x3
- e32:	f0 81       	swi37.sp $r0,[+#0x4]
- e34:	f0 01       	lwi37.sp $r0,[+#0x4]
- e36:	5a 00 08 03 	beqc $r0,#0x8,e3c <main+0x600>
- e3a:	d5 0b       	j8 e50 <main+0x614>
- e3c:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- e40:	8c 01       	addi45 $r0,#0x1
- e42:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
- e46:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
- e4a:	5c f0 01 f4 	slti $r15,$r0,#0x1f4
- e4e:	e9 96       	bnezs8 d7a <main+0x53e>
- e50:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
- e54:	8c 01       	addi45 $r0,#0x1
- e56:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
- e5a:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- e5e:	52 00 00 08 	subri $r0,$r0,#0x8
- e62:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
- e66:	e2 20       	slt45 $r1,$r0
- e68:	4e f3 ff 85 	bnez $r15,d72 <main+0x536>
- e6c:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- e70:	8c 01       	addi45 $r0,#0x1
- e72:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
- e76:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
- e7a:	e6 08       	slti45 $r0,#0x8
- e7c:	4e f3 ff 76 	bnez $r15,d68 <main+0x52c>
- e80:	46 00 01 f6 	sethi $r0,#0x1f6
- e84:	50 00 08 44 	addi $r0,$r0,#0x844
- e88:	b4 00       	lwi450 $r0,[$r0]
- e8a:	92 02       	srli45 $r0,#0x2
- e8c:	96 1f       	fexti33 $r0,#0x3
- e8e:	f0 81       	swi37.sp $r0,[+#0x4]
- e90:	f0 01       	lwi37.sp $r0,[+#0x4]
- e92:	5a 00 08 09 	beqc $r0,#0x8,ea4 <main+0x668>
- e96:	46 00 01 f6 	sethi $r0,#0x1f6
- e9a:	50 00 08 60 	addi $r0,$r0,#0x860
- e9e:	84 20       	movi55 $r1,#0x0
- ea0:	b6 20       	swi450 $r1,[$r0]
- ea2:	d5 2d       	j8 efc <main+0x6c0>
- ea4:	84 00       	movi55 $r0,#0x0
- ea6:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- eaa:	d5 24       	j8 ef2 <main+0x6b6>
- eac:	46 00 01 f6 	sethi $r0,#0x1f6
- eb0:	50 00 08 00 	addi $r0,$r0,#0x800
- eb4:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- eb8:	94 8a       	slli333 $r2,$r1,#0x2
- eba:	3e 1f ff b8 	addi.gp $r1,#-72
- ebe:	88 22       	add45 $r1,$r2
- ec0:	b4 21       	lwi450 $r1,[$r1]
- ec2:	b6 20       	swi450 $r1,[$r0]
- ec4:	46 00 01 f6 	sethi $r0,#0x1f6
- ec8:	50 00 08 60 	addi $r0,$r0,#0x860
- ecc:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
- ed0:	52 10 80 07 	subri $r1,$r1,#0x7
- ed4:	94 8a       	slli333 $r2,$r1,#0x2
- ed6:	3e 18 00 1c 	addi.gp $r1,#0x1c
- eda:	88 22       	add45 $r1,$r2
- edc:	b4 21       	lwi450 $r1,[$r1]
- ede:	b6 20       	swi450 $r1,[$r0]
- ee0:	44 00 03 e8 	movi $r0,#0x3e8
- ee4:	49 ff fa 2e 	jal 340 <delay1>
- ee8:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- eec:	8c 01       	addi45 $r0,#0x1
- eee:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
- ef2:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
- ef6:	e6 08       	slti45 $r0,#0x8
- ef8:	e9 da       	bnezs8 eac <main+0x670>
- efa:	d5 c3       	j8 e80 <main+0x644>
- efc:	48 ff fc e6 	j 8c8 <main+0x8c>
- f00:	44 00 0f b8 	movi $r0,#0xfb8
- f04:	84 20       	movi55 $r1,#0x0
- f06:	49 ff fb b1 	jal 668 <DRV_Printf>
- f0a:	84 00       	movi55 $r0,#0x0
- f0c:	ec 0c       	addi10.sp #0xc
- f0e:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- f12:	dd 9e       	ret5 $lp
+ 944:	44 00 00 32 	movi $r0,#0x32
+ 948:	49 ff fc fc 	jal 340 <delay1>
+ 94c:	46 00 01 f6 	sethi $r0,#0x1f6
+ 950:	50 00 08 60 	addi $r0,$r0,#0x860
+ 954:	84 20       	movi55 $r1,#0x0
+ 956:	b6 20       	swi450 $r1,[$r0]
+ 958:	46 00 01 f6 	sethi $r0,#0x1f6
+ 95c:	50 00 08 44 	addi $r0,$r0,#0x844
+ 960:	b4 00       	lwi450 $r0,[$r0]
+ 962:	92 02       	srli45 $r0,#0x2
+ 964:	96 1f       	fexti33 $r0,#0x3
+ 966:	f0 81       	swi37.sp $r0,[+#0x4]
+ 968:	f0 01       	lwi37.sp $r0,[+#0x4]
+ 96a:	5a 00 01 03 	beqc $r0,#0x1,970 <main+0x134>
+ 96e:	d5 0c       	j8 986 <main+0x14a>
+ 970:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
+ 974:	8c 01       	addi45 $r0,#0x1
+ 976:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
+ 97a:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
+ 97e:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ 982:	e2 20       	slt45 $r1,$r0
+ 984:	e8 c2       	beqzs8 908 <main+0xcc>
+ 986:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ 98a:	8c 01       	addi45 $r0,#0x1
+ 98c:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
+ 990:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ 994:	5c f0 09 c4 	slti $r15,$r0,#0x9c4
+ 998:	e9 b4       	bnezs8 900 <main+0xc4>
+ 99a:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ 99e:	8c 01       	addi45 $r0,#0x1
+ 9a0:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ 9a4:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ 9a8:	e6 08       	slti45 $r0,#0x8
+ 9aa:	e9 a7       	bnezs8 8f8 <main+0xbc>
+ 9ac:	46 00 01 f6 	sethi $r0,#0x1f6
+ 9b0:	50 00 08 44 	addi $r0,$r0,#0x844
+ 9b4:	b4 00       	lwi450 $r0,[$r0]
+ 9b6:	92 02       	srli45 $r0,#0x2
+ 9b8:	96 1f       	fexti33 $r0,#0x3
+ 9ba:	f0 81       	swi37.sp $r0,[+#0x4]
+ 9bc:	f0 01       	lwi37.sp $r0,[+#0x4]
+ 9be:	5a 00 01 09 	beqc $r0,#0x1,9d0 <main+0x194>
+ 9c2:	46 00 01 f6 	sethi $r0,#0x1f6
+ 9c6:	50 00 08 60 	addi $r0,$r0,#0x860
+ 9ca:	84 20       	movi55 $r1,#0x0
+ 9cc:	b6 20       	swi450 $r1,[$r0]
+ 9ce:	d5 2d       	j8 a28 <main+0x1ec>
+ 9d0:	84 00       	movi55 $r0,#0x0
+ 9d2:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ 9d6:	d5 24       	j8 a1e <main+0x1e2>
+ 9d8:	46 00 01 f6 	sethi $r0,#0x1f6
+ 9dc:	50 00 08 00 	addi $r0,$r0,#0x800
+ 9e0:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ 9e4:	94 8a       	slli333 $r2,$r1,#0x2
+ 9e6:	3e 1f ff b8 	addi.gp $r1,#-72
+ 9ea:	88 22       	add45 $r1,$r2
+ 9ec:	b4 21       	lwi450 $r1,[$r1]
+ 9ee:	b6 20       	swi450 $r1,[$r0]
+ 9f0:	46 00 01 f6 	sethi $r0,#0x1f6
+ 9f4:	50 00 08 60 	addi $r0,$r0,#0x860
+ 9f8:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ 9fc:	52 10 80 07 	subri $r1,$r1,#0x7
+ a00:	94 8a       	slli333 $r2,$r1,#0x2
+ a02:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ a06:	88 22       	add45 $r1,$r2
+ a08:	b4 21       	lwi450 $r1,[$r1]
+ a0a:	b6 20       	swi450 $r1,[$r0]
+ a0c:	44 00 03 e8 	movi $r0,#0x3e8
+ a10:	49 ff fc 98 	jal 340 <delay1>
+ a14:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ a18:	8c 01       	addi45 $r0,#0x1
+ a1a:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ a1e:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ a22:	e6 08       	slti45 $r0,#0x8
+ a24:	e9 da       	bnezs8 9d8 <main+0x19c>
+ a26:	d5 c3       	j8 9ac <main+0x170>
+ a28:	f0 01       	lwi37.sp $r0,[+#0x4]
+ a2a:	5a 00 02 04 	beqc $r0,#0x2,a32 <main+0x1f6>
+ a2e:	48 00 00 a2 	j b72 <main+0x336>
+ a32:	46 00 01 f6 	sethi $r0,#0x1f6
+ a36:	50 00 08 60 	addi $r0,$r0,#0x860
+ a3a:	44 10 66 66 	movi $r1,#0x6666
+ a3e:	b6 20       	swi450 $r1,[$r0]
+ a40:	84 00       	movi55 $r0,#0x0
+ a42:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ a46:	d5 54       	j8 aee <main+0x2b2>
+ a48:	84 00       	movi55 $r0,#0x0
+ a4a:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
+ a4e:	d5 46       	j8 ada <main+0x29e>
+ a50:	84 00       	movi55 $r0,#0x0
+ a52:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
+ a56:	d5 37       	j8 ac4 <main+0x288>
+ a58:	46 00 01 f6 	sethi $r0,#0x1f6
+ a5c:	50 00 08 00 	addi $r0,$r0,#0x800
+ a60:	3c 2c 00 17 	lwi.gp $r2,[+#0x5c]
+ a64:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
+ a68:	9a 51       	sub333 $r1,$r2,$r1
+ a6a:	94 8a       	slli333 $r2,$r1,#0x2
+ a6c:	3e 1f ff b8 	addi.gp $r1,#-72
+ a70:	88 22       	add45 $r1,$r2
+ a72:	b4 21       	lwi450 $r1,[$r1]
+ a74:	b6 20       	swi450 $r1,[$r0]
+ a76:	46 00 01 f6 	sethi $r0,#0x1f6
+ a7a:	50 00 08 60 	addi $r0,$r0,#0x860
+ a7e:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
+ a82:	94 8a       	slli333 $r2,$r1,#0x2
+ a84:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ a88:	88 22       	add45 $r1,$r2
+ a8a:	b4 21       	lwi450 $r1,[$r1]
+ a8c:	b6 20       	swi450 $r1,[$r0]
+ a8e:	44 00 00 32 	movi $r0,#0x32
+ a92:	49 ff fc 57 	jal 340 <delay1>
+ a96:	46 00 01 f6 	sethi $r0,#0x1f6
+ a9a:	50 00 08 60 	addi $r0,$r0,#0x860
+ a9e:	84 20       	movi55 $r1,#0x0
+ aa0:	b6 20       	swi450 $r1,[$r0]
+ aa2:	46 00 01 f6 	sethi $r0,#0x1f6
+ aa6:	50 00 08 44 	addi $r0,$r0,#0x844
+ aaa:	b4 00       	lwi450 $r0,[$r0]
+ aac:	92 02       	srli45 $r0,#0x2
+ aae:	96 1f       	fexti33 $r0,#0x3
+ ab0:	f0 81       	swi37.sp $r0,[+#0x4]
+ ab2:	f0 01       	lwi37.sp $r0,[+#0x4]
+ ab4:	5a 00 02 03 	beqc $r0,#0x2,aba <main+0x27e>
+ ab8:	d5 0c       	j8 ad0 <main+0x294>
+ aba:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
+ abe:	8c 01       	addi45 $r0,#0x1
+ ac0:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
+ ac4:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
+ ac8:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ acc:	e2 20       	slt45 $r1,$r0
+ ace:	e8 c5       	beqzs8 a58 <main+0x21c>
+ ad0:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ ad4:	8c 01       	addi45 $r0,#0x1
+ ad6:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
+ ada:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ ade:	5c f0 09 c4 	slti $r15,$r0,#0x9c4
+ ae2:	e9 b7       	bnezs8 a50 <main+0x214>
+ ae4:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ ae8:	8c 01       	addi45 $r0,#0x1
+ aea:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ aee:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ af2:	e6 08       	slti45 $r0,#0x8
+ af4:	e9 aa       	bnezs8 a48 <main+0x20c>
+ af6:	46 00 01 f6 	sethi $r0,#0x1f6
+ afa:	50 00 08 44 	addi $r0,$r0,#0x844
+ afe:	b4 00       	lwi450 $r0,[$r0]
+ b00:	92 02       	srli45 $r0,#0x2
+ b02:	96 1f       	fexti33 $r0,#0x3
+ b04:	f0 81       	swi37.sp $r0,[+#0x4]
+ b06:	f0 01       	lwi37.sp $r0,[+#0x4]
+ b08:	5a 00 02 09 	beqc $r0,#0x2,b1a <main+0x2de>
+ b0c:	46 00 01 f6 	sethi $r0,#0x1f6
+ b10:	50 00 08 60 	addi $r0,$r0,#0x860
+ b14:	84 20       	movi55 $r1,#0x0
+ b16:	b6 20       	swi450 $r1,[$r0]
+ b18:	d5 2d       	j8 b72 <main+0x336>
+ b1a:	84 00       	movi55 $r0,#0x0
+ b1c:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ b20:	d5 24       	j8 b68 <main+0x32c>
+ b22:	46 00 01 f6 	sethi $r0,#0x1f6
+ b26:	50 00 08 00 	addi $r0,$r0,#0x800
+ b2a:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ b2e:	94 8a       	slli333 $r2,$r1,#0x2
+ b30:	3e 1f ff b8 	addi.gp $r1,#-72
+ b34:	88 22       	add45 $r1,$r2
+ b36:	b4 21       	lwi450 $r1,[$r1]
+ b38:	b6 20       	swi450 $r1,[$r0]
+ b3a:	46 00 01 f6 	sethi $r0,#0x1f6
+ b3e:	50 00 08 60 	addi $r0,$r0,#0x860
+ b42:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ b46:	52 10 80 07 	subri $r1,$r1,#0x7
+ b4a:	94 8a       	slli333 $r2,$r1,#0x2
+ b4c:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ b50:	88 22       	add45 $r1,$r2
+ b52:	b4 21       	lwi450 $r1,[$r1]
+ b54:	b6 20       	swi450 $r1,[$r0]
+ b56:	44 00 03 e8 	movi $r0,#0x3e8
+ b5a:	49 ff fb f3 	jal 340 <delay1>
+ b5e:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ b62:	8c 01       	addi45 $r0,#0x1
+ b64:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ b68:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ b6c:	e6 08       	slti45 $r0,#0x8
+ b6e:	e9 da       	bnezs8 b22 <main+0x2e6>
+ b70:	d5 c3       	j8 af6 <main+0x2ba>
+ b72:	f0 01       	lwi37.sp $r0,[+#0x4]
+ b74:	5a 00 04 04 	beqc $r0,#0x4,b7c <main+0x340>
+ b78:	48 00 00 e3 	j d3e <main+0x502>
+ b7c:	46 00 01 f6 	sethi $r0,#0x1f6
+ b80:	50 00 08 44 	addi $r0,$r0,#0x844
+ b84:	b4 00       	lwi450 $r0,[$r0]
+ b86:	92 02       	srli45 $r0,#0x2
+ b88:	96 1f       	fexti33 $r0,#0x3
+ b8a:	f0 81       	swi37.sp $r0,[+#0x4]
+ b8c:	f0 01       	lwi37.sp $r0,[+#0x4]
+ b8e:	5a 00 04 04 	beqc $r0,#0x4,b96 <main+0x35a>
+ b92:	48 00 01 b9 	j f04 <main+0x6c8>
+ b96:	84 00       	movi55 $r0,#0x0
+ b98:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
+ b9c:	48 00 00 8e 	j cb8 <main+0x47c>
+ ba0:	84 00       	movi55 $r0,#0x0
+ ba2:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
+ ba6:	48 00 00 7b 	j c9c <main+0x460>
+ baa:	84 00       	movi55 $r0,#0x0
+ bac:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
+ bb0:	48 00 00 6c 	j c88 <main+0x44c>
+ bb4:	84 00       	movi55 $r0,#0x0
+ bb6:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ bba:	d5 30       	j8 c1a <main+0x3de>
+ bbc:	46 00 01 f6 	sethi $r0,#0x1f6
+ bc0:	50 00 08 60 	addi $r0,$r0,#0x860
+ bc4:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ bc8:	52 10 80 07 	subri $r1,$r1,#0x7
+ bcc:	94 8a       	slli333 $r2,$r1,#0x2
+ bce:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ bd2:	88 22       	add45 $r1,$r2
+ bd4:	b4 21       	lwi450 $r1,[$r1]
+ bd6:	b6 20       	swi450 $r1,[$r0]
+ bd8:	46 00 01 f6 	sethi $r0,#0x1f6
+ bdc:	50 00 08 00 	addi $r0,$r0,#0x800
+ be0:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ be4:	94 8a       	slli333 $r2,$r1,#0x2
+ be6:	3e 1f ff b8 	addi.gp $r1,#-72
+ bea:	88 22       	add45 $r1,$r2
+ bec:	b4 21       	lwi450 $r1,[$r1]
+ bee:	b6 20       	swi450 $r1,[$r0]
+ bf0:	44 00 00 64 	movi $r0,#0x64
+ bf4:	49 ff fb a6 	jal 340 <delay1>
+ bf8:	46 00 01 f6 	sethi $r0,#0x1f6
+ bfc:	50 00 08 44 	addi $r0,$r0,#0x844
+ c00:	b4 00       	lwi450 $r0,[$r0]
+ c02:	92 02       	srli45 $r0,#0x2
+ c04:	96 1f       	fexti33 $r0,#0x3
+ c06:	f0 81       	swi37.sp $r0,[+#0x4]
+ c08:	f0 01       	lwi37.sp $r0,[+#0x4]
+ c0a:	5a 00 04 03 	beqc $r0,#0x4,c10 <main+0x3d4>
+ c0e:	d5 0c       	j8 c26 <main+0x3ea>
+ c10:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ c14:	8c 01       	addi45 $r0,#0x1
+ c16:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ c1a:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ c1e:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ c22:	e2 20       	slt45 $r1,$r0
+ c24:	e9 cc       	bnezs8 bbc <main+0x380>
+ c26:	46 00 01 f6 	sethi $r0,#0x1f6
+ c2a:	50 00 08 60 	addi $r0,$r0,#0x860
+ c2e:	3c 1c 00 16 	lwi.gp $r1,[+#0x58]
+ c32:	52 10 80 07 	subri $r1,$r1,#0x7
+ c36:	94 8a       	slli333 $r2,$r1,#0x2
+ c38:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ c3c:	88 22       	add45 $r1,$r2
+ c3e:	b4 21       	lwi450 $r1,[$r1]
+ c40:	b6 20       	swi450 $r1,[$r0]
+ c42:	46 00 01 f6 	sethi $r0,#0x1f6
+ c46:	50 00 08 00 	addi $r0,$r0,#0x800
+ c4a:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
+ c4e:	52 10 80 07 	subri $r1,$r1,#0x7
+ c52:	94 8a       	slli333 $r2,$r1,#0x2
+ c54:	3e 1f ff b8 	addi.gp $r1,#-72
+ c58:	88 22       	add45 $r1,$r2
+ c5a:	b4 21       	lwi450 $r1,[$r1]
+ c5c:	b6 20       	swi450 $r1,[$r0]
+ c5e:	44 00 00 64 	movi $r0,#0x64
+ c62:	49 ff fb 6f 	jal 340 <delay1>
+ c66:	46 00 01 f6 	sethi $r0,#0x1f6
+ c6a:	50 00 08 44 	addi $r0,$r0,#0x844
+ c6e:	b4 00       	lwi450 $r0,[$r0]
+ c70:	92 02       	srli45 $r0,#0x2
+ c72:	96 1f       	fexti33 $r0,#0x3
+ c74:	f0 81       	swi37.sp $r0,[+#0x4]
+ c76:	f0 01       	lwi37.sp $r0,[+#0x4]
+ c78:	5a 00 04 03 	beqc $r0,#0x4,c7e <main+0x442>
+ c7c:	d5 0b       	j8 c92 <main+0x456>
+ c7e:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ c82:	8c 01       	addi45 $r0,#0x1
+ c84:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
+ c88:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ c8c:	5c f0 01 f4 	slti $r15,$r0,#0x1f4
+ c90:	e9 92       	bnezs8 bb4 <main+0x378>
+ c92:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
+ c96:	8c 01       	addi45 $r0,#0x1
+ c98:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
+ c9c:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ ca0:	52 00 00 08 	subri $r0,$r0,#0x8
+ ca4:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
+ ca8:	e2 20       	slt45 $r1,$r0
+ caa:	4e f3 ff 80 	bnez $r15,baa <main+0x36e>
+ cae:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ cb2:	8c 01       	addi45 $r0,#0x1
+ cb4:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
+ cb8:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ cbc:	e6 08       	slti45 $r0,#0x8
+ cbe:	4e f3 ff 71 	bnez $r15,ba0 <main+0x364>
+ cc2:	46 00 01 f6 	sethi $r0,#0x1f6
+ cc6:	50 00 08 44 	addi $r0,$r0,#0x844
+ cca:	b4 00       	lwi450 $r0,[$r0]
+ ccc:	92 02       	srli45 $r0,#0x2
+ cce:	96 1f       	fexti33 $r0,#0x3
+ cd0:	f0 81       	swi37.sp $r0,[+#0x4]
+ cd2:	f0 01       	lwi37.sp $r0,[+#0x4]
+ cd4:	5a 00 04 09 	beqc $r0,#0x4,ce6 <main+0x4aa>
+ cd8:	46 00 01 f6 	sethi $r0,#0x1f6
+ cdc:	50 00 08 60 	addi $r0,$r0,#0x860
+ ce0:	84 20       	movi55 $r1,#0x0
+ ce2:	b6 20       	swi450 $r1,[$r0]
+ ce4:	d5 2d       	j8 d3e <main+0x502>
+ ce6:	84 00       	movi55 $r0,#0x0
+ ce8:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ cec:	d5 24       	j8 d34 <main+0x4f8>
+ cee:	46 00 01 f6 	sethi $r0,#0x1f6
+ cf2:	50 00 08 00 	addi $r0,$r0,#0x800
+ cf6:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ cfa:	94 8a       	slli333 $r2,$r1,#0x2
+ cfc:	3e 1f ff b8 	addi.gp $r1,#-72
+ d00:	88 22       	add45 $r1,$r2
+ d02:	b4 21       	lwi450 $r1,[$r1]
+ d04:	b6 20       	swi450 $r1,[$r0]
+ d06:	46 00 01 f6 	sethi $r0,#0x1f6
+ d0a:	50 00 08 60 	addi $r0,$r0,#0x860
+ d0e:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ d12:	52 10 80 07 	subri $r1,$r1,#0x7
+ d16:	94 8a       	slli333 $r2,$r1,#0x2
+ d18:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ d1c:	88 22       	add45 $r1,$r2
+ d1e:	b4 21       	lwi450 $r1,[$r1]
+ d20:	b6 20       	swi450 $r1,[$r0]
+ d22:	44 00 03 e8 	movi $r0,#0x3e8
+ d26:	49 ff fb 0d 	jal 340 <delay1>
+ d2a:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ d2e:	8c 01       	addi45 $r0,#0x1
+ d30:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ d34:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ d38:	e6 08       	slti45 $r0,#0x8
+ d3a:	e9 da       	bnezs8 cee <main+0x4b2>
+ d3c:	d5 c3       	j8 cc2 <main+0x486>
+ d3e:	f0 01       	lwi37.sp $r0,[+#0x4]
+ d40:	5a 00 08 04 	beqc $r0,#0x8,d48 <main+0x50c>
+ d44:	48 00 00 de 	j f00 <main+0x6c4>
+ d48:	46 00 01 f6 	sethi $r0,#0x1f6
+ d4c:	50 00 08 44 	addi $r0,$r0,#0x844
+ d50:	b4 00       	lwi450 $r0,[$r0]
+ d52:	92 02       	srli45 $r0,#0x2
+ d54:	96 1f       	fexti33 $r0,#0x3
+ d56:	f0 81       	swi37.sp $r0,[+#0x4]
+ d58:	f0 01       	lwi37.sp $r0,[+#0x4]
+ d5a:	5a 00 08 04 	beqc $r0,#0x8,d62 <main+0x526>
+ d5e:	48 00 00 d3 	j f04 <main+0x6c8>
+ d62:	84 00       	movi55 $r0,#0x0
+ d64:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
+ d68:	48 00 00 89 	j e7a <main+0x63e>
+ d6c:	84 00       	movi55 $r0,#0x0
+ d6e:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
+ d72:	48 00 00 76 	j e5e <main+0x622>
+ d76:	84 00       	movi55 $r0,#0x0
+ d78:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
+ d7c:	d5 67       	j8 e4a <main+0x60e>
+ d7e:	84 00       	movi55 $r0,#0x0
+ d80:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ d84:	d5 30       	j8 de4 <main+0x5a8>
+ d86:	46 00 01 f6 	sethi $r0,#0x1f6
+ d8a:	50 00 08 60 	addi $r0,$r0,#0x860
+ d8e:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ d92:	94 8a       	slli333 $r2,$r1,#0x2
+ d94:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ d98:	88 22       	add45 $r1,$r2
+ d9a:	b4 21       	lwi450 $r1,[$r1]
+ d9c:	b6 20       	swi450 $r1,[$r0]
+ d9e:	46 00 01 f6 	sethi $r0,#0x1f6
+ da2:	50 00 08 00 	addi $r0,$r0,#0x800
+ da6:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ daa:	52 10 80 07 	subri $r1,$r1,#0x7
+ dae:	94 8a       	slli333 $r2,$r1,#0x2
+ db0:	3e 1f ff b8 	addi.gp $r1,#-72
+ db4:	88 22       	add45 $r1,$r2
+ db6:	b4 21       	lwi450 $r1,[$r1]
+ db8:	b6 20       	swi450 $r1,[$r0]
+ dba:	44 00 00 64 	movi $r0,#0x64
+ dbe:	49 ff fa c1 	jal 340 <delay1>
+ dc2:	46 00 01 f6 	sethi $r0,#0x1f6
+ dc6:	50 00 08 44 	addi $r0,$r0,#0x844
+ dca:	b4 00       	lwi450 $r0,[$r0]
+ dcc:	92 02       	srli45 $r0,#0x2
+ dce:	96 1f       	fexti33 $r0,#0x3
+ dd0:	f0 81       	swi37.sp $r0,[+#0x4]
+ dd2:	f0 01       	lwi37.sp $r0,[+#0x4]
+ dd4:	5a 00 08 03 	beqc $r0,#0x8,dda <main+0x59e>
+ dd8:	d5 0c       	j8 df0 <main+0x5b4>
+ dda:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ dde:	8c 01       	addi45 $r0,#0x1
+ de0:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ de4:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ de8:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ dec:	e2 20       	slt45 $r1,$r0
+ dee:	e9 cc       	bnezs8 d86 <main+0x54a>
+ df0:	46 00 01 f6 	sethi $r0,#0x1f6
+ df4:	50 00 08 60 	addi $r0,$r0,#0x860
+ df8:	3c 1c 00 16 	lwi.gp $r1,[+#0x58]
+ dfc:	94 8a       	slli333 $r2,$r1,#0x2
+ dfe:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ e02:	88 22       	add45 $r1,$r2
+ e04:	b4 21       	lwi450 $r1,[$r1]
+ e06:	b6 20       	swi450 $r1,[$r0]
+ e08:	46 00 01 f6 	sethi $r0,#0x1f6
+ e0c:	50 00 08 00 	addi $r0,$r0,#0x800
+ e10:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
+ e14:	94 8a       	slli333 $r2,$r1,#0x2
+ e16:	3e 1f ff b8 	addi.gp $r1,#-72
+ e1a:	88 22       	add45 $r1,$r2
+ e1c:	b4 21       	lwi450 $r1,[$r1]
+ e1e:	b6 20       	swi450 $r1,[$r0]
+ e20:	44 00 00 64 	movi $r0,#0x64
+ e24:	49 ff fa 8e 	jal 340 <delay1>
+ e28:	46 00 01 f6 	sethi $r0,#0x1f6
+ e2c:	50 00 08 44 	addi $r0,$r0,#0x844
+ e30:	b4 00       	lwi450 $r0,[$r0]
+ e32:	92 02       	srli45 $r0,#0x2
+ e34:	96 1f       	fexti33 $r0,#0x3
+ e36:	f0 81       	swi37.sp $r0,[+#0x4]
+ e38:	f0 01       	lwi37.sp $r0,[+#0x4]
+ e3a:	5a 00 08 03 	beqc $r0,#0x8,e40 <main+0x604>
+ e3e:	d5 0b       	j8 e54 <main+0x618>
+ e40:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ e44:	8c 01       	addi45 $r0,#0x1
+ e46:	3c 0e 00 18 	swi.gp $r0,[+#0x60]
+ e4a:	3c 0c 00 18 	lwi.gp $r0,[+#0x60]
+ e4e:	5c f0 01 f4 	slti $r15,$r0,#0x1f4
+ e52:	e9 96       	bnezs8 d7e <main+0x542>
+ e54:	3c 0c 00 15 	lwi.gp $r0,[+#0x54]
+ e58:	8c 01       	addi45 $r0,#0x1
+ e5a:	3c 0e 00 15 	swi.gp $r0,[+#0x54]
+ e5e:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ e62:	52 00 00 08 	subri $r0,$r0,#0x8
+ e66:	3c 1c 00 15 	lwi.gp $r1,[+#0x54]
+ e6a:	e2 20       	slt45 $r1,$r0
+ e6c:	4e f3 ff 85 	bnez $r15,d76 <main+0x53a>
+ e70:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ e74:	8c 01       	addi45 $r0,#0x1
+ e76:	3c 0e 00 16 	swi.gp $r0,[+#0x58]
+ e7a:	3c 0c 00 16 	lwi.gp $r0,[+#0x58]
+ e7e:	e6 08       	slti45 $r0,#0x8
+ e80:	4e f3 ff 76 	bnez $r15,d6c <main+0x530>
+ e84:	46 00 01 f6 	sethi $r0,#0x1f6
+ e88:	50 00 08 44 	addi $r0,$r0,#0x844
+ e8c:	b4 00       	lwi450 $r0,[$r0]
+ e8e:	92 02       	srli45 $r0,#0x2
+ e90:	96 1f       	fexti33 $r0,#0x3
+ e92:	f0 81       	swi37.sp $r0,[+#0x4]
+ e94:	f0 01       	lwi37.sp $r0,[+#0x4]
+ e96:	5a 00 08 09 	beqc $r0,#0x8,ea8 <main+0x66c>
+ e9a:	46 00 01 f6 	sethi $r0,#0x1f6
+ e9e:	50 00 08 60 	addi $r0,$r0,#0x860
+ ea2:	84 20       	movi55 $r1,#0x0
+ ea4:	b6 20       	swi450 $r1,[$r0]
+ ea6:	d5 2d       	j8 f00 <main+0x6c4>
+ ea8:	84 00       	movi55 $r0,#0x0
+ eaa:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ eae:	d5 24       	j8 ef6 <main+0x6ba>
+ eb0:	46 00 01 f6 	sethi $r0,#0x1f6
+ eb4:	50 00 08 00 	addi $r0,$r0,#0x800
+ eb8:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ ebc:	94 8a       	slli333 $r2,$r1,#0x2
+ ebe:	3e 1f ff b8 	addi.gp $r1,#-72
+ ec2:	88 22       	add45 $r1,$r2
+ ec4:	b4 21       	lwi450 $r1,[$r1]
+ ec6:	b6 20       	swi450 $r1,[$r0]
+ ec8:	46 00 01 f6 	sethi $r0,#0x1f6
+ ecc:	50 00 08 60 	addi $r0,$r0,#0x860
+ ed0:	3c 1c 00 17 	lwi.gp $r1,[+#0x5c]
+ ed4:	52 10 80 07 	subri $r1,$r1,#0x7
+ ed8:	94 8a       	slli333 $r2,$r1,#0x2
+ eda:	3e 18 00 1c 	addi.gp $r1,#0x1c
+ ede:	88 22       	add45 $r1,$r2
+ ee0:	b4 21       	lwi450 $r1,[$r1]
+ ee2:	b6 20       	swi450 $r1,[$r0]
+ ee4:	44 00 03 e8 	movi $r0,#0x3e8
+ ee8:	49 ff fa 2c 	jal 340 <delay1>
+ eec:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ ef0:	8c 01       	addi45 $r0,#0x1
+ ef2:	3c 0e 00 17 	swi.gp $r0,[+#0x5c]
+ ef6:	3c 0c 00 17 	lwi.gp $r0,[+#0x5c]
+ efa:	e6 08       	slti45 $r0,#0x8
+ efc:	e9 da       	bnezs8 eb0 <main+0x674>
+ efe:	d5 c3       	j8 e84 <main+0x648>
+ f00:	48 ff fc e4 	j 8c8 <main+0x8c>
+ f04:	44 00 0f bc 	movi $r0,#0xfbc
+ f08:	84 20       	movi55 $r1,#0x0
+ f0a:	49 ff fb af 	jal 668 <DRV_Printf>
+ f0e:	84 00       	movi55 $r0,#0x0
+ f10:	ec 0c       	addi10.sp #0xc
+ f12:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
+ f16:	dd 9e       	ret5 $lp
 
-00000f14 <memcpy>:
- f14:	80 60       	mov55 $r3,$r0
- f16:	c2 07       	beqz38 $r2,f24 <memcpy+0x10>
- f18:	99 4a       	add333 $r5,$r1,$r2
- f1a:	08 40 80 01 	lbi.bi $r4,[$r1],#0x1
- f1e:	18 41 80 01 	sbi.bi $r4,[$r3],#0x1
- f22:	d9 fc       	bnes38 $r1,f1a <memcpy+0x6>
- f24:	dd 9e       	ret5 $lp
- f26:	92 00       	nop16
+00000f18 <memcpy>:
+ f18:	80 60       	mov55 $r3,$r0
+ f1a:	c2 07       	beqz38 $r2,f28 <memcpy+0x10>
+ f1c:	99 4a       	add333 $r5,$r1,$r2
+ f1e:	08 40 80 01 	lbi.bi $r4,[$r1],#0x1
+ f22:	18 41 80 01 	sbi.bi $r4,[$r3],#0x1
+ f26:	d9 fc       	bnes38 $r1,f1e <memcpy+0x6>
+ f28:	dd 9e       	ret5 $lp
+ f2a:	92 00       	nop16
 
-00000f28 <memset>:
- f28:	80 60       	mov55 $r3,$r0
- f2a:	99 5a       	add333 $r5,$r3,$r2
- f2c:	d3 04       	beqs38 $r3,f34 <memset+0xc>
- f2e:	18 11 80 01 	sbi.bi $r1,[$r3],#0x1
- f32:	d5 fd       	j8 f2c <memset+0x4>
- f34:	dd 9e       	ret5 $lp
- f36:	92 00       	nop16
+00000f2c <memset>:
+ f2c:	80 60       	mov55 $r3,$r0
+ f2e:	99 5a       	add333 $r5,$r3,$r2
+ f30:	d3 04       	beqs38 $r3,f38 <memset+0xc>
+ f32:	18 11 80 01 	sbi.bi $r1,[$r3],#0x1
+ f36:	d5 fd       	j8 f30 <memset+0x4>
+ f38:	dd 9e       	ret5 $lp
+ f3a:	92 00       	nop16
