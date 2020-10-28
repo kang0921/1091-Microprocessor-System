@@ -346,8 +346,6 @@ void DRV_Printf(char *pFmt, U16 u16Val)
 }
 
 
-
-
 int main()
 {
 	unsigned int tmp = 0;
@@ -385,142 +383,158 @@ int main()
 	unsigned int num[8] = {10, 10, 10, 10, 10, 10, 10, 10};
 	char mode;
 
-	while(1)
-	{
-		key = 0xFF;
-		GPIO_PTA_DIR = 0x0FF0;	//bit 0~3: Output, bit 4~11: Input
-		GPIO_PTA_CFG = 0x0000;
-		for (col=0; col<4; col++)
-		{
-			GPIO_PTA_BS = 0x000F;
-			GPIO_PTA_BR = 0x0000 | (1 << col);
+	while(1){
 
-			//選擇 1 個 Dip Switch, 調 ON時，可將計算結果清為 0
-			tmp = (GPIO_PTC_PADIN >> 2) & 0x1;
-			if(tmp){
-				for(i = 0; i<8; i++)num[i] = 0;
-				now = 0;
-				sign = 0;
-				lock = 0;
+		//Dip SW1, 調 ON時，可將計算結果清為 0
+		tmp = (GPIO_PTC_PADIN >> 2) & 0x1;	//讀取Dip Switch
+		if(tmp){
+			for(i = 0; i<8; i++)	//清空num
+				num[i] = 10;
+			now = 0;
+			sign = 0;
+			lock = 0;
+			while(1){
+				tmp = (GPIO_PTC_PADIN >> 2) & 0x1;	//讀取Dip Switch
+				if(!tmp)	//如果SW1不為ON，則跳出迴圈
+					break;
+				GPIO_PTD_GPIO = index_7LED_NUM[0];	//印出計算結果為0
+				GPIO_PTA_GPIO = index_7LED_Digit[7];
+				delay1(1000);
 			}
 
-			tmp = ((~GPIO_PTA_PADIN) & 0xFF0) >> 4; // Only check bit 4 ~ bit 11
-			if (tmp > 0)	// some switch-button was pushed if tmp > 0, tmp == 0 if no buttons were pushed
-			{
-				if (tmp & 0x1)						// key = 1 ~ 4
-					key = 0*4 + col + 1 ;
-				else if (tmp & 0x2)					// key = 5 ~ 8
-					key = 1*4 + col + 1 ;
-				else if (tmp & 0x4 && col < 2){ 	// key = 9, 0
-					if( col == 0 ) key = 9;
-					if( col == 1 ) key = 0;
-				}
-				else if (tmp & 0x80) mode = '+';	// sw18
-				else if (tmp & 0x40) mode = '-';	// sw19
-				else if (tmp & 0x20) mode = '*';	// sw20
-				else if (tmp & 0x10) mode = '%';	// sw21
+		}
+
+		while(1)
+		{
+			tmp = (GPIO_PTC_PADIN >> 2) & 0x1;	//讀取Dip Switch，若為ON則跳出迴圈
+			if(tmp)
 				break;
-			}
-		}
-		if (key != 0xFF) // some switch had been pushed
-		{
-			// lock是為了讓它一次只讀一次
-			if( now < 4 && lock == 0){
-				num[ now++ ] = key;
-				lock = 1;
-			}
-			if( now == 4 ) mode = key;
-		}
-		else lock = 0;
+
+			key = 0xFF;
+			GPIO_PTA_DIR = 0x0FF0;	//bit 0~3: Output, bit 4~11: Input
+			GPIO_PTA_CFG = 0x0000;
+			for (col=0; col<4; col++)
+			{
+				GPIO_PTA_BS = 0x000F;
+				GPIO_PTA_BR = 0x0000 | (1 << col);
 
 
-		if(now == 4){
-			X = num[0]*10 + num[1];
-			Y = num[2]*10 + num[3];
-			switch(mode){
-				case '+':
-					res = X + Y;
-					num[4] = res / 1000;
-					num[5] = (res % 1000) / 100;
-					num[6] = (res % 100) / 10;
-					num[7] = res % 10;
-					now++;
-					break;
-				case '-':
-					if( Y > X ){
-						res = Y - X;
-						sign = 1;
+
+				tmp = ((~GPIO_PTA_PADIN) & 0xFF0) >> 4; // Only check bit 4 ~ bit 11
+				if (tmp > 0)	// some switch-button was pushed if tmp > 0, tmp == 0 if no buttons were pushed
+				{
+					if (tmp & 0x1)						// key = 1 ~ 4
+						key = 0*4 + col + 1 ;
+					else if (tmp & 0x2)					// key = 5 ~ 8
+						key = 1*4 + col + 1 ;
+					else if (tmp & 0x4 && col < 2){ 	// key = 9, 0
+						if( col == 0 ) key = 9;
+						if( col == 1 ) key = 0;
 					}
-					else res = X - Y;
-					num[4] = res / 1000;
-					num[5] = (res % 1000) / 100;
-					num[6] = (res % 100) / 10;
-					num[7] = res % 10;
-					now++;
+					else if (tmp & 0x80) mode = '+';	// sw18
+					else if (tmp & 0x40) mode = '-';	// sw19
+					else if (tmp & 0x20) mode = '*';	// sw20
+					else if (tmp & 0x10) mode = '%';	// sw21
 					break;
-				case '*':
-					res = X * Y;
-					num[4] = res / 1000;
-					num[5] = (res % 1000) / 100;
-					num[6] = (res % 100) / 10;
-					num[7] = res % 10;
-					now++;
-					break;
-				case '%':
-					res = X % Y;
-					num[4] = res / 1000;
-					num[5] = (res % 1000) / 100;
-					num[6] = (res % 100) / 10;
-					num[7] = res % 10;
-					now++;
-					break;
-			}
-
-		}
-
-
-
-		//印出兩個數字X和Y
-		for( i = 0; i < 4; i++){
-
-			//如果十位數字為0，不印
-			if(i == 0 && num[i] == 0) continue;
-			if(i == 2 && num[i] == 0) continue;
-
-			GPIO_PTD_GPIO = index_7LED_NUM[num[i]];
-			GPIO_PTA_GPIO = index_7LED_Digit[i];
-			delay1(2000);
-		}
-
-
-
-		int check_zeroInMid = 0;	// 讓不是在頭尾的0可以印出來
-		//印出結果
-		if(now == 5){
-			for(i = 4; i<8; i++){
-
-				// 如果他答案是0且不是答案的個位數則continue
-				if( num[i] == 0 && i != 7 && check_zeroInMid == 0 ){
-					//如果是負數且下個位數非0，印出負號
-					if(sign && num[i+1])
-					{
-						GPIO_PTD_GPIO = 0x4040;
-						GPIO_PTA_GPIO = index_7LED_Digit[i];
-						delay1(1000);
-					}
-					continue;
 				}
-				check_zeroInMid = 1;
+			}
+			if (key != 0xFF) // some switch had been pushed
+			{
+				// lock是為了讓它一次只讀一次
+				if( now < 4 && lock == 0){
+					num[ now++ ] = key;
+					lock = 1;
+				}
+				if( now == 4 ) mode = key;
+			}
+			else lock = 0;
+
+
+			if(now == 4){
+				X = num[0]*10 + num[1];
+				Y = num[2]*10 + num[3];
+				switch(mode){
+					case '+':
+						res = X + Y;
+						num[4] = res / 1000;
+						num[5] = (res % 1000) / 100;
+						num[6] = (res % 100) / 10;
+						num[7] = res % 10;
+						now++;
+						break;
+					case '-':
+						if( Y > X ){
+							res = Y - X;
+							sign = 1;
+						}
+						else res = X - Y;
+						num[4] = res / 1000;
+						num[5] = (res % 1000) / 100;
+						num[6] = (res % 100) / 10;
+						num[7] = res % 10;
+						now++;
+						break;
+					case '*':
+						res = X * Y;
+						num[4] = res / 1000;
+						num[5] = (res % 1000) / 100;
+						num[6] = (res % 100) / 10;
+						num[7] = res % 10;
+						now++;
+						break;
+					case '%':
+						res = X % Y;
+						num[4] = res / 1000;
+						num[5] = (res % 1000) / 100;
+						num[6] = (res % 100) / 10;
+						num[7] = res % 10;
+						now++;
+						break;
+				}
+
+			}
+
+
+			//印出兩個數字X和Y
+			for( i = 0; i < 4; i++){
+
+				//如果十位數字為0，不印，跳過
+				if(i == 0 && num[i] == 0) continue;
+				if(i == 2 && num[i] == 0) continue;
+
 				GPIO_PTD_GPIO = index_7LED_NUM[num[i]];
 				GPIO_PTA_GPIO = index_7LED_Digit[i];
-				delay1(2000);
+				delay1(4000);
+			}
+
+			int check_zeroInMid = 0;	// 讓不是在頭尾的0可以印出來
+
+			if(now == 5){	//印出結果
+				for(i = 4; i<8; i++){
+					// 如果答案是0且不是答案的個位數則continue
+					if( num[i] == 0 && i != 7 && check_zeroInMid == 0 ){
+						//如果是負數且下個位數非0，印出負號
+						if(sign && num[i+1]){
+							GPIO_PTD_GPIO = 0x4040;	//負號
+							GPIO_PTA_GPIO = index_7LED_Digit[i];
+							delay1(4000);
+						}
+						continue;
+					}
+					check_zeroInMid = 1;
+					GPIO_PTD_GPIO = index_7LED_NUM[num[i]];
+					GPIO_PTA_GPIO = index_7LED_Digit[i];
+					delay1(4000);
+				}
 			}
 		}
 	}
 
-
 	return 0;
 }
+
+
+
 
 
 
