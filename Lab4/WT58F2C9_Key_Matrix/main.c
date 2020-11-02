@@ -450,7 +450,8 @@ int main()
 			else lock = 0;
 
 
-			if(now == 4){
+			if(now >= 4){
+				sign = 0;
 				X = num[0]*10 + num[1];
 				Y = num[2]*10 + num[3];
 				switch(mode){
@@ -504,12 +505,12 @@ int main()
 
 				GPIO_PTD_GPIO = index_7LED_NUM[num[i]];
 				GPIO_PTA_GPIO = index_7LED_Digit[i];
-				delay1(4000);
+				delay1(3000);
 			}
 
 			int check_zeroInMid = 0;	// 讓不是在頭尾的0可以印出來
 
-			if(now == 5){	//印出結果
+			if(now >= 5){	//印出結果
 				for(i = 4; i<8; i++){
 					// 如果答案是0且不是答案的個位數則continue
 					if( num[i] == 0 && i != 7 && check_zeroInMid == 0 ){
@@ -517,14 +518,14 @@ int main()
 						if(sign && num[i+1]){
 							GPIO_PTD_GPIO = 0x4040;	//負號
 							GPIO_PTA_GPIO = index_7LED_Digit[i];
-							delay1(4000);
+							delay1(3000);
 						}
 						continue;
 					}
 					check_zeroInMid = 1;
 					GPIO_PTD_GPIO = index_7LED_NUM[num[i]];
 					GPIO_PTA_GPIO = index_7LED_Digit[i];
-					delay1(4000);
+					delay1(3000);
 				}
 			}
 		}
@@ -532,7 +533,6 @@ int main()
 
 	return 0;
 }
-
 
 
 
