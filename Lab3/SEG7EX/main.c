@@ -353,22 +353,9 @@ unsigned int index_7LED_NUM[17] = {Number_0, Number_1, Number_2, Number_3, Numbe
 unsigned int id[8] = { Number_4, Number_0, Number_7, Number_2, Number_6, Number_1, Number_1, Number_2};
 
 
-void A();
-void B();
-void C();
-
 int main()
 {
-
 	OS_PowerOnDriverInitial();
-
-
-	DRV_Printf("====================================\r\n", 0);
-	DRV_Printf("   ADP-WT58F2C9 7-SEG demo program   \r\n", 0);
-	DRV_Printf("====================================\r\n", 0);
-
-
-	DRV_Printf("7-SEG testing ...\r\n", 0);
 
 	// Setting for 7LED select
 	GPIO_PTA_DIR = 0x0000;
@@ -532,10 +519,5 @@ int main()
 		}
 
 	}
-
-
-	DRV_Printf("====================================\r\n", 0);
-
-
 	return 0;
 }
