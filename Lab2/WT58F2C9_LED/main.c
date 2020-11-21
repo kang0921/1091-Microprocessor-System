@@ -352,22 +352,11 @@ int main()
 {
 	unsigned int i, j;
 
-
 	OS_PowerOnDriverInitial();
-
-
-	DRV_Printf("====================================\r\n", 0);
-	DRV_Printf("   ADP-WT58F2C9 LED demo program   \r\n", 0);
-	DRV_Printf("====================================\r\n", 0);
-
-
-	DRV_Printf("LED testing ...\r\n", 0);
 
 	GPIO_PTB_DIR = 0x0000;	//for GPIO
 	GPIO_PTB_CFG = 0xFFFF;	//for push pull
 	GPIO_PTB_PADIN = 0x00;	//for Output
-
-
 
 	/*由右到左亮兩次*/
 	for(i = 0 ; i<2 ; i++){
@@ -380,7 +369,6 @@ int main()
 		}
 	}
 
-
 	/*再全亮全滅三次*/
 	for(i = 0; i<3; i++){
 		GPIO_PTB_GPIO = 0x0000;
@@ -389,8 +377,6 @@ int main()
 		delay1(100000);
 	}
 
-
-	
 	for(j = 0; j < 5 ; j++)
 	{
 		int init = 0x8000;
@@ -411,12 +397,7 @@ int main()
 		}
 	}
 
-
-
 	GPIO_PTB_GPIO = 0x0000;
-
-	DRV_Printf("====================================\r\n", 0);
-
 
 	return 0;
 }
