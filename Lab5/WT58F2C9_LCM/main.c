@@ -1,6 +1,7 @@
 #include <nds32_intrinsic.h>
 #include "WT58F2C9.h"
 #include "gpio.h"
+#include "lcm.h"
 
 
 void delay1(unsigned int nCount)
@@ -416,11 +417,11 @@ void InitialLCD(void)
 	delay1(300000);
 }
 
-//æŽ§åˆ¶ç¬¬ä¸€çµ„æ–‡å­—é¡¯ç¤º
+//±±¨î²Ä¤@²Õ¤å¦rÅã¥Ü
 void Print1()
 {
   char text1[]="My ID is 407261128";
-  char text2[]="Hello World";
+  char text2[]="You are unique, nothing can replace you.";
   char i;
   WriteIns(0x38);  //FUNCTION SET
   WriteIns(0x0E);  //DISPLAY CONTROL
@@ -434,69 +435,69 @@ void Print1()
   }
 
   WriteIns(0xC0);  //2-LINE DD RAM SET Address
-  for(i=0;i<11;i++)
+  for(i=0;i<40;i++)
   {
     WriteData(text2[i]);
     delay1(10000);
   }
 }
 
-//æŽ§åˆ¶ç¬¬äºŒçµ„æ–‡å­—é¡¯ç¤º
+//±±¨î²Ä¤G²Õ¤å¦rÅã¥Ü
 void Print2()
 {
-  char text1[]="Good morning";
-  char text2[]="Good Bye";
+  char text1[]="The first step is as good as half over.";
+  char text2[]="A man is only as good as what he loves.";
   char i;
   WriteIns(0x38);  //FUNCTION SET
   WriteIns(0x0E);  //DISPLAY CONTROL
   WriteIns(0x06);  //SET INPUT MODE
 
   WriteIns(0x80);  //1-LINE DD RAM SET Address
-  for(i=0;i<12;i++)
+  for(i=0;i<39;i++)
   {
     WriteData(text1[i]);
     delay1(10000);
   }
 
   WriteIns(0xC0);  //2-LINE DD RAM SET Address
-  for(i=0;i<8;i++)
+  for(i=0;i<39;i++)
   {
     WriteData(text2[i]);
     delay1(10000);
   }
 }
 
-//æŽ§åˆ¶æ–‡å­—å·¦ç§»
+//±±¨î¤å¦r¥ª²¾
 void left_shift(){
 	WriteIns(0x18);
 	delay1(100000);
 }
 
-//æŽ§åˆ¶æ–‡å­—å³ç§»
+//±±¨î¤å¦r¥k²¾
 void right_shift(){
 	WriteIns(0x1C);
 	delay1(100000);
 }
 
-//æŽ§åˆ¶ Clear Display
+//±±¨î Clear Display
 void clear_display(){
 	WriteIns(0x1);
 	delay1(10000);
 }
 
-//æŽ§åˆ¶ Return Home
+//±±¨î Return Home
 void return_home(){
 	WriteIns(0x2);
 	delay1(10000);
 }
 
-//æŽ§åˆ¶ Cursor on
+//±±¨î Cursor on
 void cursor_on(){
 	WriteIns(0xE);
 	delay1(500000);
 }
 
-//æŽ§åˆ¶ Cursor off
+//±±¨î Cursor off
 void cursor_off(){
 	WriteIns(0xC);
 	delay1(500000);

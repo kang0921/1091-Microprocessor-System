@@ -7,9 +7,9 @@ start address 0x000001a0
 
 Program Header:
     LOAD off    0x00001000 vaddr 0x00000000 paddr 0x00000000 align 2**12
-         filesz 0x00000e30 memsz 0x00000e30 flags r-x
-    LOAD off    0x00002200 vaddr 0x00100200 paddr 0x00000e30 align 2**12
-         filesz 0x00000000 memsz 0x00000018 flags rw-
+         filesz 0x00000ec8 memsz 0x00000ec8 flags r-x
+    LOAD off    0x00002200 vaddr 0x00100200 paddr 0x00000ec8 align 2**12
+         filesz 0x00000418 memsz 0x00000430 flags rw-
 private flags = 40010042: n1 instructions
 
 Sections:
@@ -24,27 +24,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   4 .nds32_isr    000000d8  00000148  00000148  00001148  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  5 .text         00000b54  00000220  00000220  00001220  2**2
+  5 .text         00000b98  00000220  00000220  00001220  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  6 .rodata       000000bc  00000d74  00000d74  00001d74  2**2
+  6 .rodata       00000110  00000db8  00000db8  00001db8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .bss          00000018  00100200  00000e30  00002200  2**2
+  7 .data         00000418  00100200  00000ec8  00002200  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .bss          00000018  00100618  000012e0  00002618  2**2
                   ALLOC
-  8 .comment      0000002f  00000000  00000000  00001e30  2**0
+  9 .comment      0000002f  00000000  00000000  00002618  2**0
                   CONTENTS, READONLY
-  9 .debug_aranges 00000240  00000000  00000000  00001e60  2**3
+ 10 .debug_aranges 00000240  00000000  00000000  00002648  2**3
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_info   00002831  00000000  00000000  000020a0  2**0
+ 11 .debug_info   0000290b  00000000  00000000  00002888  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_abbrev 000005c2  00000000  00000000  000048d1  2**0
+ 12 .debug_abbrev 000005c2  00000000  00000000  00005193  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_line   00001687  00000000  00000000  00004e93  2**0
+ 13 .debug_line   00001693  00000000  00000000  00005755  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_frame  00000458  00000000  00000000  0000651c  2**2
+ 14 .debug_frame  0000045c  00000000  00000000  00006de8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    0000bf51  00000000  00000000  00006974  2**0
+ 15 .debug_str    0000c0f9  00000000  00000000  00007244  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_macro  00001cec  00000000  00000000  000128c5  2**0
+ 16 .debug_macro  00001d59  00000000  00000000  0001333d  2**0
                   CONTENTS, READONLY, DEBUGGING
 SYMBOL TABLE:
 00000000 l    d  .nds32_vector	00000000 .nds32_vector
@@ -53,8 +55,9 @@ SYMBOL TABLE:
 00000108 l    d  .nds32_jmptbl	00000000 .nds32_jmptbl
 00000148 l    d  .nds32_isr	00000000 .nds32_isr
 00000220 l    d  .text	00000000 .text
-00000d74 l    d  .rodata	00000000 .rodata
-00100200 l    d  .bss	00000000 .bss
+00000db8 l    d  .rodata	00000000 .rodata
+00100200 l    d  .data	00000000 .data
+00100618 l    d  .bss	00000000 .bss
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .debug_aranges	00000000 .debug_aranges
 00000000 l    d  .debug_info	00000000 .debug_info
@@ -88,7 +91,9 @@ SYMBOL TABLE:
 00000220  w    F .text	00000002 HW2_ISR
 000002f4 g     F .text	0000001e reset_handler
 000004a2 g     F .text	000001c6 DRV_IntToStr
+00100208 g     O .data	00000002 LCD_CursorBlink
 000003d6 g     F .text	00000024 DRV_SysXtal
+00100214 g     O .data	00000002 LCD_BusyFlag
 00000340 g     F .text	0000001c delay1
 0000012c g     O .nds32_jmptbl	00000004 _nds32_jmptbl_09
 000000d0  w    F .nds32_vector	00000004 _nds32_vector_13
@@ -101,10 +106,13 @@ SYMBOL TABLE:
 000002e0 g     F .text	00000014 clear_swi
 00000148 g     F .nds32_isr	00000042 _nds32_e_sa_nr
 00000118  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_04
-00000d50 g     F .text	00000012 memcpy
+0010020e g     O .data	00000002 LCD_InstructionMode
+00000d94 g     F .text	00000012 memcpy
+00100202 g     O .data	00000002 LCD_DisplayAutoShift
 000002a8 g     F .text	00000006 GIE_ENABLE
+00100206 g     O .data	00000002 LCD_Cursor
 000002b8 g     F .text	00000020 gen_swi
-00000be0 g     F .text	0000001c return_home
+00000c24 g     F .text	0000001c return_home
 0000025c g     F .text	00000032 __cpu_init
 00000220  w    F .text	00000002 HW5_ISR
 00000220  w    F .text	00000002 HW4_ISR
@@ -112,37 +120,43 @@ SYMBOL TABLE:
 000008d6 g     F .text	0000005c WriteData
 00000010  w    F .nds32_vector	00000004 _nds32_vector_01
 0000083c g     F .text	0000009a CheckBusy
+00100204 g     O .data	00000002 LCD_Display
 00000110  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_02
-00000bfc g     F .text	0000001c cursor_on
+00000c40 g     F .text	0000001c cursor_on
 00000070  w    F .nds32_vector	00000004 _nds32_vector_07
 00000040  w    F .nds32_vector	00000004 _nds32_vector_04
+00100218 g     O .data	00000400 pattern
 00000144 g     O .nds32_jmptbl	00000004 _nds32_jmptbl_15
-00000abe g     F .text	000000ce Print2
-00100208  w      .bss	00000000 _FP_BASE_
-00000b8c g     F .text	0000001c left_shift
+00000ade g     F .text	000000f2 Print2
+00100418  w      .data	00000000 _FP_BASE_
+00000bd0 g     F .text	0000001c left_shift
 00000412 g     F .text	0000005e DRV_PutChar
 000000e0  w    F .nds32_vector	00000004 _nds32_vector_14
 000001a0 g       .nds32_isr	00000000 _start
 0000098e g     F .text	00000066 InitialLCD
-00100208  w      .bss	00000000 _SDA_BASE_
+00100418  w      .data	00000000 _SDA_BASE_
 00000222 g     F .text	00000002 __null_function
 000002ae g     F .text	0000000a GIE_DISABLE
+00100210 g     O .data	00000002 LCD_NumLine
 0000031c g     F .text	00000002 HW0_ISR
 0000013c  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_13
 00000130 g     O .nds32_jmptbl	00000004 _nds32_jmptbl_10
 000000b0  w    F .nds32_vector	00000004 _nds32_vector_11
-00000bc4 g     F .text	0000001c clear_display
+00000c08 g     F .text	0000001c clear_display
 0000035c g     F .text	0000001a DRV_EnableHWInt
+0010020a g     O .data	00000002 LCD_ShiftMode
 000001a0 g     F .nds32_isr	00000080 _nds32_reset
+00100212 g     O .data	00000002 LCD_FontSize
 0000011c  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_05
 00000220  w    F .text	00000002 error_exception_handler
-00100200 g       .bss	00000000 _lmaend
+00100618 g       .bss	00000000 _lmaend
 00000000  w      .nds32_vector	00000000 _RELAX_END_
 00000100 g     O .nds32_nmih	00000004 _nds32_nmih
-00100200 g       .bss	00000000 __bss_start
+00100618 g       .bss	00000000 __bss_start
 00000108 g     O .nds32_jmptbl	00000004 _nds32_jmptbl_00
-00000d64 g     F .text	0000000e memset
-00000c34 g     F .text	0000011c main
+00000da8 g     F .text	0000000e memset
+00100200 g     O .data	00000002 LCD_ACShiftDirection
+00000c78 g     F .text	0000011c main
 000003c0 g     F .text	00000016 DRV_IntInitial
 00000104 g     O .nds32_wrh	00000004 _nds32_wrh
 00000090 g     F .nds32_vector	00000010 _nds32_vector_09
@@ -152,31 +166,32 @@ SYMBOL TABLE:
 00000114  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_03
 00000128 g     O .nds32_jmptbl	00000004 _nds32_jmptbl_08
 000000c0  w    F .nds32_vector	00000004 _nds32_vector_12
-00000c18 g     F .text	0000001c cursor_off
+00000c5c g     F .text	0000001c cursor_off
 000002d8 g     F .text	00000008 initIntr_standby
 00000080 g     F .nds32_vector	00000010 _nds32_vector_08
-00000ba8 g     F .text	0000001c right_shift
+00000bec g     F .text	0000001c right_shift
 00000328 g     F .text	00000016 SW0_ISR
 00000134  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_11
 00000668 g     F .text	000001d4 DRV_Printf
-00000e30 g       *ABS*	00000000 __data_lmastart
+00000ec8 g       *ABS*	00000000 __data_lmastart
 000000f0 g     F .nds32_vector	00000010 _nds32_vector_15
 00000470 g     F .text	00000032 DRV_PutStr
-00100200 g       .bss	00000000 _edata
-000009f4 g     F .text	000000ca Print1
-00100218 g       .bss	00000000 _end
+00100618 g       .bss	00000000 _edata
+000009f4 g     F .text	000000ea Print1
+00100630 g       .bss	00000000 _end
 000002a0 g     F .text	00000008 nmi_handler
+0010020c g     O .data	00000002 LCD_ShiftRight
 00000224 g     F .text	00000038 __c_init
 00000312 g     F .text	0000000a syscall_handler
 00000140  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_14
 0000029e g     F .text	00000002 __soc_init
 00103000 g       *ABS*	00000000 _stack
 00000376 g     F .text	0000004a DRV_BlockIntDisable
-00100200 g       .rodata	00000000 __data_start
+00100200 g       .data	00000000 __data_start
 000000a0 g     F .nds32_vector	00000010 _nds32_vector_10
 0000028e g     F .text	00000010 _nds32_init_mem
 0000010c  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_01
-00100200 g     O .bss	00000018 u8TxdBuf
+00100618 g     O .bss	00000018 u8TxdBuf
 00000120  w    O .nds32_jmptbl	00000004 _nds32_jmptbl_06
 00000000 g     F .nds32_vector	00000004 _nds32_vector_00
 000003fa g     F .text	00000018 OS_PowerOnDriverInitial
@@ -317,7 +332,7 @@ Disassembly of section .nds32_isr:
  1a4:	3a 0f a8 3c 	smw.adm $r0,[$sp],$r10,#0x0    ! {$r0~$r10}
  1a8:	3a ff bf fc 	smw.adm $r15,[$sp],$r15,#0xf    ! {$r15, $fp, $gp, $lp, $sp}
  1ac:	47 d0 01 00 	sethi $gp,#0x100
- 1b0:	59 de 82 08 	ori $gp,$gp,#0x208
+ 1b0:	59 de 84 18 	ori $gp,$gp,#0x418
  1b4:	80 1f       	mov55 $r0,$sp
  1b6:	64 12 64 02 	mfsr $r1,$itype
  1ba:	96 5f       	fexti33 $r1,#0x3
@@ -341,8 +356,8 @@ Disassembly of section .nds32_isr:
  1f4:	64 02 24 03 	mtsr $r0,$ivb
  1f8:	64 00 00 08 	dsb
  1fc:	47 d0 01 00 	sethi $gp,#0x100
- 200:	59 de 82 08 	ori $gp,$gp,#0x208
- 204:	3f f8 2d f8 	addi.gp $sp,#0x2df8
+ 200:	59 de 84 18 	ori $gp,$gp,#0x418
+ 204:	3f f8 2b e8 	addi.gp $sp,#0x2be8
  208:	44 f0 02 8e 	movi $r15,#0x28e
  20c:	4e f2 00 03 	beqz $r15,212 <_nds32_reset+0x72>
  210:	dd 2f       	jral5 $r15
@@ -361,23 +376,23 @@ Disassembly of section .text:
 
 00000224 <__c_init>:
  224:	fc 01       	push25 $r6,#8    ! {$r6, $fp, $gp, $lp}
- 226:	3e 1f ff f8 	addi.gp $r1,#-8
- 22a:	3e 0f ff f8 	addi.gp $r0,#-8
+ 226:	3e 18 02 00 	addi.gp $r1,#0x200
+ 22a:	3e 0f fd e8 	addi.gp $r0,#-536
  22e:	9a 08       	sub333 $r0,$r1,$r0
  230:	f0 81       	swi37.sp $r0,[+#0x4]
  232:	f2 01       	lwi37.sp $r2,[+#0x4]
- 234:	3e 0f ff f8 	addi.gp $r0,#-8
- 238:	44 10 0e 30 	movi $r1,#0xe30
- 23c:	49 00 05 8a 	jal d50 <memcpy>
- 240:	3e 18 00 10 	addi.gp $r1,#0x10
- 244:	3e 0f ff f8 	addi.gp $r0,#-8
+ 234:	3e 0f fd e8 	addi.gp $r0,#-536
+ 238:	44 10 0e c8 	movi $r1,#0xec8
+ 23c:	49 00 05 ac 	jal d94 <memcpy>
+ 240:	3e 18 02 18 	addi.gp $r1,#0x218
+ 244:	3e 08 02 00 	addi.gp $r0,#0x200
  248:	9a 08       	sub333 $r0,$r1,$r0
  24a:	f0 81       	swi37.sp $r0,[+#0x4]
  24c:	f1 01       	lwi37.sp $r1,[+#0x4]
- 24e:	3e 0f ff f8 	addi.gp $r0,#-8
+ 24e:	3e 08 02 00 	addi.gp $r0,#0x200
  252:	80 41       	mov55 $r2,$r1
  254:	84 20       	movi55 $r1,#0x0
- 256:	49 00 05 87 	jal d64 <memset>
+ 256:	49 00 05 a9 	jal da8 <memset>
  25a:	fc 81       	pop25 $r6,#8    ! {$r6, $fp, $gp, $lp}
 
 0000025c <__cpu_init>:
@@ -457,7 +472,7 @@ Disassembly of section .text:
  2fa:	49 ff ff b1 	jal 25c <__cpu_init>
  2fe:	49 ff ff 93 	jal 224 <__c_init>
  302:	49 ff ff ce 	jal 29e <__soc_init>
- 306:	49 00 04 97 	jal c34 <main>
+ 306:	49 00 04 b9 	jal c78 <main>
  30a:	ec 04       	addi10.sp #0x4
  30c:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
  310:	dd 9e       	ret5 $lp
@@ -889,18 +904,18 @@ Disassembly of section .text:
  7d0:	d4 07 00 00 	.word	0x000007d4
  7d4:	02 0f 80 01 	lhi $r0,[$sp+#0x2]
  7d8:	fa 20       	movpi45 $r1,#0x10
- 7da:	3e 2f ff f8 	addi.gp $r2,#-8
+ 7da:	3e 28 02 00 	addi.gp $r2,#0x200
  7de:	84 62       	movi55 $r3,#0x2
  7e0:	49 ff fe 61 	jal 4a2 <DRV_IntToStr>
- 7e4:	3e 0f ff f8 	addi.gp $r0,#-8
+ 7e4:	3e 08 02 00 	addi.gp $r0,#0x200
  7e8:	49 ff fe 44 	jal 470 <DRV_PutStr>
  7ec:	d5 14       	j8 814 <DRV_Printf+0x1ac>
  7ee:	02 0f 80 01 	lhi $r0,[$sp+#0x2]
  7f2:	84 2a       	movi55 $r1,#0xa
- 7f4:	3e 2f ff f8 	addi.gp $r2,#-8
+ 7f4:	3e 28 02 00 	addi.gp $r2,#0x200
  7f8:	84 65       	movi55 $r3,#0x5
  7fa:	49 ff fe 54 	jal 4a2 <DRV_IntToStr>
- 7fe:	3e 0f ff f8 	addi.gp $r0,#-8
+ 7fe:	3e 08 02 00 	addi.gp $r0,#0x200
  802:	49 ff fe 37 	jal 470 <DRV_PutStr>
  806:	d5 07       	j8 814 <DRV_Printf+0x1ac>
  808:	02 0f 80 01 	lhi $r0,[$sp+#0x2]
@@ -1063,10 +1078,10 @@ Disassembly of section .text:
 
 000009f4 <Print1>:
  9f4:	3a 6f 98 bc 	smw.adm $r6,[$sp],$r6,#0x2    ! {$r6, $lp}
- 9f8:	ef e0       	addi10.sp #-32
- 9fa:	b0 03       	addri36.sp $r0,#0xc
+ 9f8:	ef c0       	addi10.sp #-64
+ 9fa:	b0 0b       	addri36.sp $r0,#0x2c
  9fc:	80 c0       	mov55 $r6,$r0
- 9fe:	44 00 0d f4 	movi $r0,#0xdf4
+ 9fe:	44 00 0e 38 	movi $r0,#0xe38
  a02:	3a 20 14 04 	lmw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
  a06:	80 20       	mov55 $r1,$r0
  a08:	80 06       	mov55 $r0,$r6
@@ -1077,316 +1092,335 @@ Disassembly of section .text:
  a14:	ae 42       	sbi333 $r1,[$r0+#0x2]
  a16:	80 1f       	mov55 $r0,$sp
  a18:	80 20       	mov55 $r1,$r0
- a1a:	44 00 0e 08 	movi $r0,#0xe08
- a1e:	3a 20 10 00 	lmw.bi $r2,[$r0],$r4,#0x0    ! {$r2~$r4}
- a22:	3a 20 90 20 	smw.bi $r2,[$r1],$r4,#0x0    ! {$r2~$r4}
- a26:	44 00 00 38 	movi $r0,#0x38
- a2a:	49 ff ff 84 	jal 932 <WriteIns>
- a2e:	84 0e       	movi55 $r0,#0xe
- a30:	49 ff ff 81 	jal 932 <WriteIns>
- a34:	84 06       	movi55 $r0,#0x6
- a36:	49 ff ff 7e 	jal 932 <WriteIns>
- a3a:	44 00 00 80 	movi $r0,#0x80
- a3e:	49 ff ff 7a 	jal 932 <WriteIns>
- a42:	84 00       	movi55 $r0,#0x0
- a44:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- a48:	d5 14       	j8 a70 <Print1+0x7c>
- a4a:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- a4e:	b0 43       	addri36.sp $r1,#0xc
- a50:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
- a54:	96 00       	zeb33 $r0,$r0
- a56:	49 ff ff 40 	jal 8d6 <WriteData>
- a5a:	44 00 27 10 	movi $r0,#0x2710
- a5e:	49 ff fc 71 	jal 340 <delay1>
- a62:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- a66:	96 00       	zeb33 $r0,$r0
- a68:	8c 01       	addi45 $r0,#0x1
- a6a:	96 00       	zeb33 $r0,$r0
- a6c:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- a70:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- a74:	e4 12       	sltsi45 $r0,#0x12
- a76:	e9 ea       	bnezs8 a4a <Print1+0x56>
- a78:	44 00 00 c0 	movi $r0,#0xc0
- a7c:	49 ff ff 5b 	jal 932 <WriteIns>
- a80:	84 00       	movi55 $r0,#0x0
- a82:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- a86:	d5 14       	j8 aae <Print1+0xba>
- a88:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- a8c:	80 3f       	mov55 $r1,$sp
- a8e:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
- a92:	96 00       	zeb33 $r0,$r0
- a94:	49 ff ff 21 	jal 8d6 <WriteData>
- a98:	44 00 27 10 	movi $r0,#0x2710
- a9c:	49 ff fc 52 	jal 340 <delay1>
- aa0:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- aa4:	96 00       	zeb33 $r0,$r0
- aa6:	8c 01       	addi45 $r0,#0x1
- aa8:	96 00       	zeb33 $r0,$r0
- aaa:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- aae:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- ab2:	e4 0b       	sltsi45 $r0,#0xb
- ab4:	e9 ea       	bnezs8 a88 <Print1+0x94>
- ab6:	ec 20       	addi10.sp #0x20
- ab8:	3a 6f 98 84 	lmw.bim $r6,[$sp],$r6,#0x2    ! {$r6, $lp}
- abc:	dd 9e       	ret5 $lp
+ a1a:	44 00 0e 4c 	movi $r0,#0xe4c
+ a1e:	3a 20 14 04 	lmw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ a22:	3a 20 94 24 	smw.bim $r2,[$r1],$r5,#0x0    ! {$r2~$r5}
+ a26:	80 c1       	mov55 $r6,$r1
+ a28:	3a 20 14 04 	lmw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ a2c:	80 20       	mov55 $r1,$r0
+ a2e:	80 06       	mov55 $r0,$r6
+ a30:	3a 20 14 24 	smw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ a34:	3a 20 8c 04 	lmw.bim $r2,[$r1],$r3,#0x0    ! {$r2~$r3}
+ a38:	80 81       	mov55 $r4,$r1
+ a3a:	3a 20 0c 24 	smw.bim $r2,[$r0],$r3,#0x0    ! {$r2~$r3}
+ a3e:	80 20       	mov55 $r1,$r0
+ a40:	a6 20       	lbi333 $r0,[$r4+#0x0]
+ a42:	ae 08       	sbi333 $r0,[$r1+#0x0]
+ a44:	44 00 00 38 	movi $r0,#0x38
+ a48:	49 ff ff 75 	jal 932 <WriteIns>
+ a4c:	84 0e       	movi55 $r0,#0xe
+ a4e:	49 ff ff 72 	jal 932 <WriteIns>
+ a52:	84 06       	movi55 $r0,#0x6
+ a54:	49 ff ff 6f 	jal 932 <WriteIns>
+ a58:	44 00 00 80 	movi $r0,#0x80
+ a5c:	49 ff ff 6b 	jal 932 <WriteIns>
+ a60:	84 00       	movi55 $r0,#0x0
+ a62:	10 0f 80 3f 	sbi $r0,[$sp+#0x3f]
+ a66:	d5 14       	j8 a8e <Print1+0x9a>
+ a68:	20 0f 80 3f 	lbsi $r0,[$sp+#0x3f]
+ a6c:	b0 4b       	addri36.sp $r1,#0x2c
+ a6e:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
+ a72:	96 00       	zeb33 $r0,$r0
+ a74:	49 ff ff 31 	jal 8d6 <WriteData>
+ a78:	44 00 27 10 	movi $r0,#0x2710
+ a7c:	49 ff fc 62 	jal 340 <delay1>
+ a80:	20 0f 80 3f 	lbsi $r0,[$sp+#0x3f]
+ a84:	96 00       	zeb33 $r0,$r0
+ a86:	8c 01       	addi45 $r0,#0x1
+ a88:	96 00       	zeb33 $r0,$r0
+ a8a:	10 0f 80 3f 	sbi $r0,[$sp+#0x3f]
+ a8e:	20 0f 80 3f 	lbsi $r0,[$sp+#0x3f]
+ a92:	e4 12       	sltsi45 $r0,#0x12
+ a94:	e9 ea       	bnezs8 a68 <Print1+0x74>
+ a96:	44 00 00 c0 	movi $r0,#0xc0
+ a9a:	49 ff ff 4c 	jal 932 <WriteIns>
+ a9e:	84 00       	movi55 $r0,#0x0
+ aa0:	10 0f 80 3f 	sbi $r0,[$sp+#0x3f]
+ aa4:	d5 14       	j8 acc <Print1+0xd8>
+ aa6:	20 0f 80 3f 	lbsi $r0,[$sp+#0x3f]
+ aaa:	80 3f       	mov55 $r1,$sp
+ aac:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
+ ab0:	96 00       	zeb33 $r0,$r0
+ ab2:	49 ff ff 12 	jal 8d6 <WriteData>
+ ab6:	44 00 27 10 	movi $r0,#0x2710
+ aba:	49 ff fc 43 	jal 340 <delay1>
+ abe:	20 0f 80 3f 	lbsi $r0,[$sp+#0x3f]
+ ac2:	96 00       	zeb33 $r0,$r0
+ ac4:	8c 01       	addi45 $r0,#0x1
+ ac6:	96 00       	zeb33 $r0,$r0
+ ac8:	10 0f 80 3f 	sbi $r0,[$sp+#0x3f]
+ acc:	20 0f 80 3f 	lbsi $r0,[$sp+#0x3f]
+ ad0:	5e f0 00 28 	sltsi $r15,$r0,#0x28
+ ad4:	e9 e9       	bnezs8 aa6 <Print1+0xb2>
+ ad6:	ec 40       	addi10.sp #0x40
+ ad8:	3a 6f 98 84 	lmw.bim $r6,[$sp],$r6,#0x2    ! {$r6, $lp}
+ adc:	dd 9e       	ret5 $lp
 
-00000abe <Print2>:
- abe:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- ac2:	ef dc       	addi10.sp #-36
- ac4:	b0 04       	addri36.sp $r0,#0x10
- ac6:	80 a0       	mov55 $r5,$r0
- ac8:	44 00 0e 14 	movi $r0,#0xe14
- acc:	3a 20 10 04 	lmw.bim $r2,[$r0],$r4,#0x0    ! {$r2~$r4}
- ad0:	80 20       	mov55 $r1,$r0
- ad2:	80 05       	mov55 $r0,$r5
- ad4:	3a 20 10 24 	smw.bim $r2,[$r0],$r4,#0x0    ! {$r2~$r4}
- ad8:	a6 48       	lbi333 $r1,[$r1+#0x0]
- ada:	ae 40       	sbi333 $r1,[$r0+#0x0]
- adc:	b0 01       	addri36.sp $r0,#0x4
- ade:	80 80       	mov55 $r4,$r0
- ae0:	44 00 0e 24 	movi $r0,#0xe24
- ae4:	3a 20 0c 04 	lmw.bim $r2,[$r0],$r3,#0x0    ! {$r2~$r3}
- ae8:	80 20       	mov55 $r1,$r0
- aea:	80 04       	mov55 $r0,$r4
- aec:	3a 20 0c 24 	smw.bim $r2,[$r0],$r3,#0x0    ! {$r2~$r3}
- af0:	a6 48       	lbi333 $r1,[$r1+#0x0]
- af2:	ae 40       	sbi333 $r1,[$r0+#0x0]
- af4:	44 00 00 38 	movi $r0,#0x38
- af8:	49 ff ff 1d 	jal 932 <WriteIns>
- afc:	84 0e       	movi55 $r0,#0xe
- afe:	49 ff ff 1a 	jal 932 <WriteIns>
- b02:	84 06       	movi55 $r0,#0x6
- b04:	49 ff ff 17 	jal 932 <WriteIns>
- b08:	44 00 00 80 	movi $r0,#0x80
- b0c:	49 ff ff 13 	jal 932 <WriteIns>
- b10:	84 00       	movi55 $r0,#0x0
- b12:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- b16:	d5 14       	j8 b3e <Print2+0x80>
- b18:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- b1c:	b0 44       	addri36.sp $r1,#0x10
- b1e:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
- b22:	96 00       	zeb33 $r0,$r0
- b24:	49 ff fe d9 	jal 8d6 <WriteData>
- b28:	44 00 27 10 	movi $r0,#0x2710
- b2c:	49 ff fc 0a 	jal 340 <delay1>
- b30:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- b34:	96 00       	zeb33 $r0,$r0
- b36:	8c 01       	addi45 $r0,#0x1
- b38:	96 00       	zeb33 $r0,$r0
- b3a:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- b3e:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- b42:	e4 0c       	sltsi45 $r0,#0xc
- b44:	e9 ea       	bnezs8 b18 <Print2+0x5a>
- b46:	44 00 00 c0 	movi $r0,#0xc0
- b4a:	49 ff fe f4 	jal 932 <WriteIns>
- b4e:	84 00       	movi55 $r0,#0x0
- b50:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- b54:	d5 14       	j8 b7c <Print2+0xbe>
- b56:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- b5a:	b0 41       	addri36.sp $r1,#0x4
- b5c:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
- b60:	96 00       	zeb33 $r0,$r0
- b62:	49 ff fe ba 	jal 8d6 <WriteData>
- b66:	44 00 27 10 	movi $r0,#0x2710
- b6a:	49 ff fb eb 	jal 340 <delay1>
- b6e:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- b72:	96 00       	zeb33 $r0,$r0
- b74:	8c 01       	addi45 $r0,#0x1
- b76:	96 00       	zeb33 $r0,$r0
- b78:	10 0f 80 1f 	sbi $r0,[$sp+#0x1f]
- b7c:	20 0f 80 1f 	lbsi $r0,[$sp+#0x1f]
- b80:	e4 08       	sltsi45 $r0,#0x8
- b82:	e9 ea       	bnezs8 b56 <Print2+0x98>
- b84:	ec 24       	addi10.sp #0x24
- b86:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- b8a:	dd 9e       	ret5 $lp
+00000ade <Print2>:
+ ade:	3a 6f 98 bc 	smw.adm $r6,[$sp],$r6,#0x2    ! {$r6, $lp}
+ ae2:	ef a8       	addi10.sp #-88
+ ae4:	b0 0b       	addri36.sp $r0,#0x2c
+ ae6:	80 c0       	mov55 $r6,$r0
+ ae8:	44 00 0e 78 	movi $r0,#0xe78
+ aec:	3a 20 14 04 	lmw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ af0:	80 20       	mov55 $r1,$r0
+ af2:	80 06       	mov55 $r0,$r6
+ af4:	3a 20 14 24 	smw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ af8:	3a 20 94 04 	lmw.bim $r2,[$r1],$r5,#0x0    ! {$r2~$r5}
+ afc:	80 c1       	mov55 $r6,$r1
+ afe:	3a 20 14 24 	smw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ b02:	80 20       	mov55 $r1,$r0
+ b04:	3a 23 0c 00 	lmw.bi $r2,[$r6],$r3,#0x0    ! {$r2~$r3}
+ b08:	3a 20 8c 20 	smw.bi $r2,[$r1],$r3,#0x0    ! {$r2~$r3}
+ b0c:	b0 01       	addri36.sp $r0,#0x4
+ b0e:	80 c0       	mov55 $r6,$r0
+ b10:	44 00 0e a0 	movi $r0,#0xea0
+ b14:	3a 20 14 04 	lmw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ b18:	80 20       	mov55 $r1,$r0
+ b1a:	80 06       	mov55 $r0,$r6
+ b1c:	3a 20 14 24 	smw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ b20:	3a 20 94 04 	lmw.bim $r2,[$r1],$r5,#0x0    ! {$r2~$r5}
+ b24:	80 c1       	mov55 $r6,$r1
+ b26:	3a 20 14 24 	smw.bim $r2,[$r0],$r5,#0x0    ! {$r2~$r5}
+ b2a:	80 20       	mov55 $r1,$r0
+ b2c:	3a 23 0c 00 	lmw.bi $r2,[$r6],$r3,#0x0    ! {$r2~$r3}
+ b30:	3a 20 8c 20 	smw.bi $r2,[$r1],$r3,#0x0    ! {$r2~$r3}
+ b34:	44 00 00 38 	movi $r0,#0x38
+ b38:	49 ff fe fd 	jal 932 <WriteIns>
+ b3c:	84 0e       	movi55 $r0,#0xe
+ b3e:	49 ff fe fa 	jal 932 <WriteIns>
+ b42:	84 06       	movi55 $r0,#0x6
+ b44:	49 ff fe f7 	jal 932 <WriteIns>
+ b48:	44 00 00 80 	movi $r0,#0x80
+ b4c:	49 ff fe f3 	jal 932 <WriteIns>
+ b50:	84 00       	movi55 $r0,#0x0
+ b52:	10 0f 80 57 	sbi $r0,[$sp+#0x57]
+ b56:	d5 14       	j8 b7e <Print2+0xa0>
+ b58:	20 0f 80 57 	lbsi $r0,[$sp+#0x57]
+ b5c:	b0 4b       	addri36.sp $r1,#0x2c
+ b5e:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
+ b62:	96 00       	zeb33 $r0,$r0
+ b64:	49 ff fe b9 	jal 8d6 <WriteData>
+ b68:	44 00 27 10 	movi $r0,#0x2710
+ b6c:	49 ff fb ea 	jal 340 <delay1>
+ b70:	20 0f 80 57 	lbsi $r0,[$sp+#0x57]
+ b74:	96 00       	zeb33 $r0,$r0
+ b76:	8c 01       	addi45 $r0,#0x1
+ b78:	96 00       	zeb33 $r0,$r0
+ b7a:	10 0f 80 57 	sbi $r0,[$sp+#0x57]
+ b7e:	20 0f 80 57 	lbsi $r0,[$sp+#0x57]
+ b82:	5e f0 00 27 	sltsi $r15,$r0,#0x27
+ b86:	e9 e9       	bnezs8 b58 <Print2+0x7a>
+ b88:	44 00 00 c0 	movi $r0,#0xc0
+ b8c:	49 ff fe d3 	jal 932 <WriteIns>
+ b90:	84 00       	movi55 $r0,#0x0
+ b92:	10 0f 80 57 	sbi $r0,[$sp+#0x57]
+ b96:	d5 14       	j8 bbe <Print2+0xe0>
+ b98:	20 0f 80 57 	lbsi $r0,[$sp+#0x57]
+ b9c:	b0 41       	addri36.sp $r1,#0x4
+ b9e:	38 00 80 10 	lbs $r0,[$r1+($r0<<#0x0)]
+ ba2:	96 00       	zeb33 $r0,$r0
+ ba4:	49 ff fe 99 	jal 8d6 <WriteData>
+ ba8:	44 00 27 10 	movi $r0,#0x2710
+ bac:	49 ff fb ca 	jal 340 <delay1>
+ bb0:	20 0f 80 57 	lbsi $r0,[$sp+#0x57]
+ bb4:	96 00       	zeb33 $r0,$r0
+ bb6:	8c 01       	addi45 $r0,#0x1
+ bb8:	96 00       	zeb33 $r0,$r0
+ bba:	10 0f 80 57 	sbi $r0,[$sp+#0x57]
+ bbe:	20 0f 80 57 	lbsi $r0,[$sp+#0x57]
+ bc2:	5e f0 00 27 	sltsi $r15,$r0,#0x27
+ bc6:	e9 e9       	bnezs8 b98 <Print2+0xba>
+ bc8:	ec 58       	addi10.sp #0x58
+ bca:	3a 6f 98 84 	lmw.bim $r6,[$sp],$r6,#0x2    ! {$r6, $lp}
+ bce:	dd 9e       	ret5 $lp
 
-00000b8c <left_shift>:
- b8c:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- b90:	ef fc       	addi10.sp #-4
- b92:	fa 08       	movpi45 $r0,#0x18
- b94:	49 ff fe cf 	jal 932 <WriteIns>
- b98:	44 01 86 a0 	movi $r0,#0x186a0
- b9c:	49 ff fb d2 	jal 340 <delay1>
- ba0:	ec 04       	addi10.sp #0x4
- ba2:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- ba6:	dd 9e       	ret5 $lp
+00000bd0 <left_shift>:
+ bd0:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
+ bd4:	ef fc       	addi10.sp #-4
+ bd6:	fa 08       	movpi45 $r0,#0x18
+ bd8:	49 ff fe ad 	jal 932 <WriteIns>
+ bdc:	44 01 86 a0 	movi $r0,#0x186a0
+ be0:	49 ff fb b0 	jal 340 <delay1>
+ be4:	ec 04       	addi10.sp #0x4
+ be6:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
+ bea:	dd 9e       	ret5 $lp
 
-00000ba8 <right_shift>:
- ba8:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- bac:	ef fc       	addi10.sp #-4
- bae:	fa 0c       	movpi45 $r0,#0x1c
- bb0:	49 ff fe c1 	jal 932 <WriteIns>
- bb4:	44 01 86 a0 	movi $r0,#0x186a0
- bb8:	49 ff fb c4 	jal 340 <delay1>
- bbc:	ec 04       	addi10.sp #0x4
- bbe:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- bc2:	dd 9e       	ret5 $lp
+00000bec <right_shift>:
+ bec:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
+ bf0:	ef fc       	addi10.sp #-4
+ bf2:	fa 0c       	movpi45 $r0,#0x1c
+ bf4:	49 ff fe 9f 	jal 932 <WriteIns>
+ bf8:	44 01 86 a0 	movi $r0,#0x186a0
+ bfc:	49 ff fb a2 	jal 340 <delay1>
+ c00:	ec 04       	addi10.sp #0x4
+ c02:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
+ c06:	dd 9e       	ret5 $lp
 
-00000bc4 <clear_display>:
- bc4:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- bc8:	ef fc       	addi10.sp #-4
- bca:	84 01       	movi55 $r0,#0x1
- bcc:	49 ff fe b3 	jal 932 <WriteIns>
- bd0:	44 00 27 10 	movi $r0,#0x2710
- bd4:	49 ff fb b6 	jal 340 <delay1>
- bd8:	ec 04       	addi10.sp #0x4
- bda:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- bde:	dd 9e       	ret5 $lp
+00000c08 <clear_display>:
+ c08:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
+ c0c:	ef fc       	addi10.sp #-4
+ c0e:	84 01       	movi55 $r0,#0x1
+ c10:	49 ff fe 91 	jal 932 <WriteIns>
+ c14:	44 00 27 10 	movi $r0,#0x2710
+ c18:	49 ff fb 94 	jal 340 <delay1>
+ c1c:	ec 04       	addi10.sp #0x4
+ c1e:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
+ c22:	dd 9e       	ret5 $lp
 
-00000be0 <return_home>:
- be0:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- be4:	ef fc       	addi10.sp #-4
- be6:	84 02       	movi55 $r0,#0x2
- be8:	49 ff fe a5 	jal 932 <WriteIns>
- bec:	44 00 27 10 	movi $r0,#0x2710
- bf0:	49 ff fb a8 	jal 340 <delay1>
- bf4:	ec 04       	addi10.sp #0x4
- bf6:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- bfa:	dd 9e       	ret5 $lp
+00000c24 <return_home>:
+ c24:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
+ c28:	ef fc       	addi10.sp #-4
+ c2a:	84 02       	movi55 $r0,#0x2
+ c2c:	49 ff fe 83 	jal 932 <WriteIns>
+ c30:	44 00 27 10 	movi $r0,#0x2710
+ c34:	49 ff fb 86 	jal 340 <delay1>
+ c38:	ec 04       	addi10.sp #0x4
+ c3a:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
+ c3e:	dd 9e       	ret5 $lp
 
-00000bfc <cursor_on>:
- bfc:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- c00:	ef fc       	addi10.sp #-4
- c02:	84 0e       	movi55 $r0,#0xe
- c04:	49 ff fe 97 	jal 932 <WriteIns>
- c08:	44 07 a1 20 	movi $r0,#0x7a120
- c0c:	49 ff fb 9a 	jal 340 <delay1>
- c10:	ec 04       	addi10.sp #0x4
- c12:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- c16:	dd 9e       	ret5 $lp
+00000c40 <cursor_on>:
+ c40:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
+ c44:	ef fc       	addi10.sp #-4
+ c46:	84 0e       	movi55 $r0,#0xe
+ c48:	49 ff fe 75 	jal 932 <WriteIns>
+ c4c:	44 07 a1 20 	movi $r0,#0x7a120
+ c50:	49 ff fb 78 	jal 340 <delay1>
+ c54:	ec 04       	addi10.sp #0x4
+ c56:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
+ c5a:	dd 9e       	ret5 $lp
 
-00000c18 <cursor_off>:
- c18:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- c1c:	ef fc       	addi10.sp #-4
- c1e:	84 0c       	movi55 $r0,#0xc
- c20:	49 ff fe 89 	jal 932 <WriteIns>
- c24:	44 07 a1 20 	movi $r0,#0x7a120
- c28:	49 ff fb 8c 	jal 340 <delay1>
- c2c:	ec 04       	addi10.sp #0x4
- c2e:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
- c32:	dd 9e       	ret5 $lp
+00000c5c <cursor_off>:
+ c5c:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
+ c60:	ef fc       	addi10.sp #-4
+ c62:	84 0c       	movi55 $r0,#0xc
+ c64:	49 ff fe 67 	jal 932 <WriteIns>
+ c68:	44 07 a1 20 	movi $r0,#0x7a120
+ c6c:	49 ff fb 6a 	jal 340 <delay1>
+ c70:	ec 04       	addi10.sp #0x4
+ c72:	3b ff fc 84 	lmw.bim $sp,[$sp],$sp,#0x2    ! {$lp}
+ c76:	dd 9e       	ret5 $lp
 
-00000c34 <main>:
- c34:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
- c38:	ef ec       	addi10.sp #-20
- c3a:	84 00       	movi55 $r0,#0x0
- c3c:	f0 81       	swi37.sp $r0,[+#0x4]
- c3e:	49 ff fb de 	jal 3fa <OS_PowerOnDriverInitial>
- c42:	49 ff fe a6 	jal 98e <InitialLCD>
- c46:	84 00       	movi55 $r0,#0x0
- c48:	f0 82       	swi37.sp $r0,[+#0x8]
- c4a:	d5 41       	j8 ccc <main+0x98>
- c4c:	44 00 00 ff 	movi $r0,#0xff
- c50:	f0 83       	swi37.sp $r0,[+#0xc]
- c52:	46 00 01 f6 	sethi $r0,#0x1f6
- c56:	50 00 08 08 	addi $r0,$r0,#0x808
- c5a:	44 10 0f f0 	movi $r1,#0xff0
- c5e:	b6 20       	swi450 $r1,[$r0]
- c60:	46 00 01 f6 	sethi $r0,#0x1f6
- c64:	50 00 08 0c 	addi $r0,$r0,#0x80c
- c68:	84 20       	movi55 $r1,#0x0
- c6a:	b6 20       	swi450 $r1,[$r0]
- c6c:	46 00 01 f6 	sethi $r0,#0x1f6
- c70:	50 00 08 14 	addi $r0,$r0,#0x814
- c74:	84 2f       	movi55 $r1,#0xf
- c76:	b6 20       	swi450 $r1,[$r0]
- c78:	46 00 01 f6 	sethi $r0,#0x1f6
- c7c:	50 00 08 10 	addi $r0,$r0,#0x810
- c80:	f1 02       	lwi37.sp $r1,[+#0x8]
- c82:	84 41       	movi55 $r2,#0x1
- c84:	40 11 04 0c 	sll $r1,$r2,$r1
- c88:	b6 20       	swi450 $r1,[$r0]
- c8a:	46 00 01 f6 	sethi $r0,#0x1f6
- c8e:	50 00 08 04 	addi $r0,$r0,#0x804
- c92:	b4 00       	lwi450 $r0,[$r0]
- c94:	fe 03       	not33 $r0,$r0
- c96:	54 00 0f f0 	andi $r0,$r0,#0xff0
- c9a:	92 04       	srli45 $r0,#0x4
- c9c:	b6 1f       	swi450 $r0,[$sp]
- c9e:	b4 1f       	lwi450 $r0,[$sp]
- ca0:	c0 13       	beqz38 $r0,cc6 <main+0x92>
- ca2:	b4 1f       	lwi450 $r0,[$sp]
- ca4:	96 06       	bmski33 $r0,#0x0
- ca6:	c0 05       	beqz38 $r0,cb0 <main+0x7c>
- ca8:	f0 02       	lwi37.sp $r0,[+#0x8]
- caa:	8c 01       	addi45 $r0,#0x1
- cac:	f0 83       	swi37.sp $r0,[+#0xc]
- cae:	d5 0b       	j8 cc4 <main+0x90>
- cb0:	b4 1f       	lwi450 $r0,[$sp]
- cb2:	96 0e       	bmski33 $r0,#0x1
- cb4:	c0 08       	beqz38 $r0,cc4 <main+0x90>
- cb6:	f0 02       	lwi37.sp $r0,[+#0x8]
- cb8:	e6 03       	slti45 $r0,#0x3
- cba:	e8 05       	beqzs8 cc4 <main+0x90>
- cbc:	f0 02       	lwi37.sp $r0,[+#0x8]
- cbe:	8c 05       	addi45 $r0,#0x5
- cc0:	f0 83       	swi37.sp $r0,[+#0xc]
- cc2:	d5 08       	j8 cd2 <main+0x9e>
- cc4:	d5 07       	j8 cd2 <main+0x9e>
- cc6:	f0 02       	lwi37.sp $r0,[+#0x8]
- cc8:	8c 01       	addi45 $r0,#0x1
- cca:	f0 82       	swi37.sp $r0,[+#0x8]
- ccc:	f0 02       	lwi37.sp $r0,[+#0x8]
- cce:	e6 04       	slti45 $r0,#0x4
- cd0:	e9 be       	bnezs8 c4c <main+0x18>
- cd2:	f1 03       	lwi37.sp $r1,[+#0xc]
- cd4:	84 1f       	movi55 $r0,#-1
- cd6:	88 01       	add45 $r0,$r1
- cd8:	e6 07       	slti45 $r0,#0x7
- cda:	e8 38       	beqzs8 d4a <main+0x116>
- cdc:	44 f0 0c e8 	movi $r15,#0xce8
- ce0:	38 07 82 02 	lw $r0,[$r15+($r0<<#0x2)]
- ce4:	4a 00 00 00 	jr $r0
- ce8:	04 0d 00 00 	.word	0x00000d04
- cec:	0e 0d 00 00 	.word	0x00000d0e
- cf0:	18 0d 00 00 	.word	0x00000d18
- cf4:	1e 0d 00 00 	.word	0x00000d1e
- cf8:	24 0d 00 00 	.word	0x00000d24
- cfc:	2a 0d 00 00 	.word	0x00000d2a
- d00:	30 0d 00 00 	.word	0x00000d30
- d04:	49 ff ff 60 	jal bc4 <clear_display>
- d08:	49 ff fe 76 	jal 9f4 <Print1>
- d0c:	d5 20       	j8 d4c <main+0x118>
- d0e:	49 ff ff 5b 	jal bc4 <clear_display>
- d12:	49 ff fe d6 	jal abe <Print2>
- d16:	d5 1b       	j8 d4c <main+0x118>
- d18:	49 ff ff 3a 	jal b8c <left_shift>
- d1c:	d5 18       	j8 d4c <main+0x118>
- d1e:	49 ff ff 45 	jal ba8 <right_shift>
- d22:	d5 15       	j8 d4c <main+0x118>
- d24:	49 ff ff 50 	jal bc4 <clear_display>
- d28:	d5 12       	j8 d4c <main+0x118>
- d2a:	49 ff ff 5b 	jal be0 <return_home>
- d2e:	d5 0f       	j8 d4c <main+0x118>
- d30:	f0 01       	lwi37.sp $r0,[+#0x4]
- d32:	5a 08 01 07 	bnec $r0,#0x1,d40 <main+0x10c>
- d36:	49 ff ff 63 	jal bfc <cursor_on>
- d3a:	84 00       	movi55 $r0,#0x0
- d3c:	f0 81       	swi37.sp $r0,[+#0x4]
- d3e:	d5 07       	j8 d4c <main+0x118>
- d40:	49 ff ff 6c 	jal c18 <cursor_off>
- d44:	84 01       	movi55 $r0,#0x1
- d46:	f0 81       	swi37.sp $r0,[+#0x4]
- d48:	d5 02       	j8 d4c <main+0x118>
- d4a:	92 00       	nop16
- d4c:	48 ff ff 7d 	j c46 <main+0x12>
+00000c78 <main>:
+ c78:	3b ff fc bc 	smw.adm $sp,[$sp],$sp,#0x2    ! {$lp}
+ c7c:	ef ec       	addi10.sp #-20
+ c7e:	84 00       	movi55 $r0,#0x0
+ c80:	f0 81       	swi37.sp $r0,[+#0x4]
+ c82:	49 ff fb bc 	jal 3fa <OS_PowerOnDriverInitial>
+ c86:	49 ff fe 84 	jal 98e <InitialLCD>
+ c8a:	84 00       	movi55 $r0,#0x0
+ c8c:	f0 82       	swi37.sp $r0,[+#0x8]
+ c8e:	d5 41       	j8 d10 <main+0x98>
+ c90:	44 00 00 ff 	movi $r0,#0xff
+ c94:	f0 83       	swi37.sp $r0,[+#0xc]
+ c96:	46 00 01 f6 	sethi $r0,#0x1f6
+ c9a:	50 00 08 08 	addi $r0,$r0,#0x808
+ c9e:	44 10 0f f0 	movi $r1,#0xff0
+ ca2:	b6 20       	swi450 $r1,[$r0]
+ ca4:	46 00 01 f6 	sethi $r0,#0x1f6
+ ca8:	50 00 08 0c 	addi $r0,$r0,#0x80c
+ cac:	84 20       	movi55 $r1,#0x0
+ cae:	b6 20       	swi450 $r1,[$r0]
+ cb0:	46 00 01 f6 	sethi $r0,#0x1f6
+ cb4:	50 00 08 14 	addi $r0,$r0,#0x814
+ cb8:	84 2f       	movi55 $r1,#0xf
+ cba:	b6 20       	swi450 $r1,[$r0]
+ cbc:	46 00 01 f6 	sethi $r0,#0x1f6
+ cc0:	50 00 08 10 	addi $r0,$r0,#0x810
+ cc4:	f1 02       	lwi37.sp $r1,[+#0x8]
+ cc6:	84 41       	movi55 $r2,#0x1
+ cc8:	40 11 04 0c 	sll $r1,$r2,$r1
+ ccc:	b6 20       	swi450 $r1,[$r0]
+ cce:	46 00 01 f6 	sethi $r0,#0x1f6
+ cd2:	50 00 08 04 	addi $r0,$r0,#0x804
+ cd6:	b4 00       	lwi450 $r0,[$r0]
+ cd8:	fe 03       	not33 $r0,$r0
+ cda:	54 00 0f f0 	andi $r0,$r0,#0xff0
+ cde:	92 04       	srli45 $r0,#0x4
+ ce0:	b6 1f       	swi450 $r0,[$sp]
+ ce2:	b4 1f       	lwi450 $r0,[$sp]
+ ce4:	c0 13       	beqz38 $r0,d0a <main+0x92>
+ ce6:	b4 1f       	lwi450 $r0,[$sp]
+ ce8:	96 06       	bmski33 $r0,#0x0
+ cea:	c0 05       	beqz38 $r0,cf4 <main+0x7c>
+ cec:	f0 02       	lwi37.sp $r0,[+#0x8]
+ cee:	8c 01       	addi45 $r0,#0x1
+ cf0:	f0 83       	swi37.sp $r0,[+#0xc]
+ cf2:	d5 0b       	j8 d08 <main+0x90>
+ cf4:	b4 1f       	lwi450 $r0,[$sp]
+ cf6:	96 0e       	bmski33 $r0,#0x1
+ cf8:	c0 08       	beqz38 $r0,d08 <main+0x90>
+ cfa:	f0 02       	lwi37.sp $r0,[+#0x8]
+ cfc:	e6 03       	slti45 $r0,#0x3
+ cfe:	e8 05       	beqzs8 d08 <main+0x90>
+ d00:	f0 02       	lwi37.sp $r0,[+#0x8]
+ d02:	8c 05       	addi45 $r0,#0x5
+ d04:	f0 83       	swi37.sp $r0,[+#0xc]
+ d06:	d5 08       	j8 d16 <main+0x9e>
+ d08:	d5 07       	j8 d16 <main+0x9e>
+ d0a:	f0 02       	lwi37.sp $r0,[+#0x8]
+ d0c:	8c 01       	addi45 $r0,#0x1
+ d0e:	f0 82       	swi37.sp $r0,[+#0x8]
+ d10:	f0 02       	lwi37.sp $r0,[+#0x8]
+ d12:	e6 04       	slti45 $r0,#0x4
+ d14:	e9 be       	bnezs8 c90 <main+0x18>
+ d16:	f1 03       	lwi37.sp $r1,[+#0xc]
+ d18:	84 1f       	movi55 $r0,#-1
+ d1a:	88 01       	add45 $r0,$r1
+ d1c:	e6 07       	slti45 $r0,#0x7
+ d1e:	e8 38       	beqzs8 d8e <main+0x116>
+ d20:	44 f0 0d 2c 	movi $r15,#0xd2c
+ d24:	38 07 82 02 	lw $r0,[$r15+($r0<<#0x2)]
+ d28:	4a 00 00 00 	jr $r0
+ d2c:	48 0d 00 00 	.word	0x00000d48
+ d30:	52 0d 00 00 	.word	0x00000d52
+ d34:	5c 0d 00 00 	.word	0x00000d5c
+ d38:	62 0d 00 00 	.word	0x00000d62
+ d3c:	68 0d 00 00 	.word	0x00000d68
+ d40:	6e 0d 00 00 	.word	0x00000d6e
+ d44:	74 0d 00 00 	.word	0x00000d74
+ d48:	49 ff ff 60 	jal c08 <clear_display>
+ d4c:	49 ff fe 54 	jal 9f4 <Print1>
+ d50:	d5 20       	j8 d90 <main+0x118>
+ d52:	49 ff ff 5b 	jal c08 <clear_display>
+ d56:	49 ff fe c4 	jal ade <Print2>
+ d5a:	d5 1b       	j8 d90 <main+0x118>
+ d5c:	49 ff ff 3a 	jal bd0 <left_shift>
+ d60:	d5 18       	j8 d90 <main+0x118>
+ d62:	49 ff ff 45 	jal bec <right_shift>
+ d66:	d5 15       	j8 d90 <main+0x118>
+ d68:	49 ff ff 50 	jal c08 <clear_display>
+ d6c:	d5 12       	j8 d90 <main+0x118>
+ d6e:	49 ff ff 5b 	jal c24 <return_home>
+ d72:	d5 0f       	j8 d90 <main+0x118>
+ d74:	f0 01       	lwi37.sp $r0,[+#0x4]
+ d76:	5a 08 01 07 	bnec $r0,#0x1,d84 <main+0x10c>
+ d7a:	49 ff ff 63 	jal c40 <cursor_on>
+ d7e:	84 00       	movi55 $r0,#0x0
+ d80:	f0 81       	swi37.sp $r0,[+#0x4]
+ d82:	d5 07       	j8 d90 <main+0x118>
+ d84:	49 ff ff 6c 	jal c5c <cursor_off>
+ d88:	84 01       	movi55 $r0,#0x1
+ d8a:	f0 81       	swi37.sp $r0,[+#0x4]
+ d8c:	d5 02       	j8 d90 <main+0x118>
+ d8e:	92 00       	nop16
+ d90:	48 ff ff 7d 	j c8a <main+0x12>
 
-00000d50 <memcpy>:
- d50:	80 60       	mov55 $r3,$r0
- d52:	c2 07       	beqz38 $r2,d60 <memcpy+0x10>
- d54:	99 4a       	add333 $r5,$r1,$r2
- d56:	08 40 80 01 	lbi.bi $r4,[$r1],#0x1
- d5a:	18 41 80 01 	sbi.bi $r4,[$r3],#0x1
- d5e:	d9 fc       	bnes38 $r1,d56 <memcpy+0x6>
- d60:	dd 9e       	ret5 $lp
- d62:	92 00       	nop16
+00000d94 <memcpy>:
+ d94:	80 60       	mov55 $r3,$r0
+ d96:	c2 07       	beqz38 $r2,da4 <memcpy+0x10>
+ d98:	99 4a       	add333 $r5,$r1,$r2
+ d9a:	08 40 80 01 	lbi.bi $r4,[$r1],#0x1
+ d9e:	18 41 80 01 	sbi.bi $r4,[$r3],#0x1
+ da2:	d9 fc       	bnes38 $r1,d9a <memcpy+0x6>
+ da4:	dd 9e       	ret5 $lp
+ da6:	92 00       	nop16
 
-00000d64 <memset>:
- d64:	80 60       	mov55 $r3,$r0
- d66:	99 5a       	add333 $r5,$r3,$r2
- d68:	d3 04       	beqs38 $r3,d70 <memset+0xc>
- d6a:	18 11 80 01 	sbi.bi $r1,[$r3],#0x1
- d6e:	d5 fd       	j8 d68 <memset+0x4>
- d70:	dd 9e       	ret5 $lp
- d72:	92 00       	nop16
+00000da8 <memset>:
+ da8:	80 60       	mov55 $r3,$r0
+ daa:	99 5a       	add333 $r5,$r3,$r2
+ dac:	d3 04       	beqs38 $r3,db4 <memset+0xc>
+ dae:	18 11 80 01 	sbi.bi $r1,[$r3],#0x1
+ db2:	d5 fd       	j8 dac <memset+0x4>
+ db4:	dd 9e       	ret5 $lp
+ db6:	92 00       	nop16

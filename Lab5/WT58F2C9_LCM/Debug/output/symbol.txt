@@ -60,38 +60,50 @@
 0000031c T HW0_ISR	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../interrupt-c-ext.c:85
 0000031e T HW1_ISR	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../interrupt-c-ext.c:94
 00000328 T SW0_ISR	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../interrupt-c-ext.c:102
-00000340 T delay1	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:6
-0000035c T DRV_EnableHWInt	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:32
-00000376 T DRV_BlockIntDisable	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:42
-000003c0 T DRV_IntInitial	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:53
-000003d6 T DRV_SysXtal	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:68
-000003fa T OS_PowerOnDriverInitial	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:94
-00000412 T DRV_PutChar	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:180
-00000470 T DRV_PutStr	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:202
-000004a2 T DRV_IntToStr	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:217
-00000668 T DRV_Printf	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:303
-0000083c T CheckBusy	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:355
-000008d6 T WriteData	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:378
-00000932 T WriteIns	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:390
-0000098e T InitialLCD	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:403
-000009f4 T Print1	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:419
-00000abe T Print2	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:443
-00000b8c T left_shift	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:467
-00000ba8 T right_shift	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:472
-00000bc4 T clear_display	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:477
-00000be0 T return_home	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:482
-00000bfc T cursor_on	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:487
-00000c18 T cursor_off	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:492
-00000c34 T main	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:497
-00000d50 T memcpy
-00000d64 T memset
-00000e30 A __data_lmastart
-00100200 B __bss_start
-00100200 R __data_start
-00100200 B _edata
-00100200 B _lmaend
-00100200 B u8TxdBuf	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:178
-00100208 W _FP_BASE_
-00100208 W _SDA_BASE_
-00100218 B _end
+00000340 T delay1	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:7
+0000035c T DRV_EnableHWInt	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:33
+00000376 T DRV_BlockIntDisable	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:43
+000003c0 T DRV_IntInitial	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:54
+000003d6 T DRV_SysXtal	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:69
+000003fa T OS_PowerOnDriverInitial	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:95
+00000412 T DRV_PutChar	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:181
+00000470 T DRV_PutStr	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:203
+000004a2 T DRV_IntToStr	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:218
+00000668 T DRV_Printf	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:304
+0000083c T CheckBusy	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:356
+000008d6 T WriteData	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:379
+00000932 T WriteIns	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:391
+0000098e T InitialLCD	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:404
+000009f4 T Print1	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:421
+00000ade T Print2	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:446
+00000bd0 T left_shift	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:471
+00000bec T right_shift	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:477
+00000c08 T clear_display	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:483
+00000c24 T return_home	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:489
+00000c40 T cursor_on	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:495
+00000c5c T cursor_off	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:501
+00000c78 T main	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:506
+00000d94 T memcpy
+00000da8 T memset
+00000ec8 A __data_lmastart
+00100200 D LCD_ACShiftDirection	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:31
+00100200 D __data_start
+00100202 D LCD_DisplayAutoShift	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:32
+00100204 D LCD_Display	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:35
+00100206 D LCD_Cursor	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:36
+00100208 D LCD_CursorBlink	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:37
+0010020a D LCD_ShiftMode	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:40
+0010020c D LCD_ShiftRight	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:41
+0010020e D LCD_InstructionMode	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:44
+00100210 D LCD_NumLine	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:45
+00100212 D LCD_FontSize	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:46
+00100214 D LCD_BusyFlag	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:48
+00100218 D pattern	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../lcm.h:50
+00100418 W _FP_BASE_
+00100418 W _SDA_BASE_
+00100618 B __bss_start
+00100618 B _edata
+00100618 B _lmaend
+00100618 B u8TxdBuf	/cygdrive/c/WorkSpace/AndeSight/WT58F2C9_LCM/Debug/../main.c:179
+00100630 B _end
 00103000 A _stack
