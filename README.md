@@ -1,6 +1,6 @@
 # 109級 微處理機系統
 
-- 資工三甲
+- 系級：資工三甲
 - 教授：王國華 副教授
 
 - Lab 1：Andes N801-S Assembly Programming
