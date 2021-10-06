@@ -1,6 +1,4 @@
-# 1091-Microprocessor-System
-
-微處理機系統
+# 109級 微處理機系統
 
 Lab1：Andes N801-S Assembly Programming
 
